@@ -337,6 +337,111 @@ const Dashboard = ({ user, onLogout }) => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Weekly Activity & Most Discussed Topics */}
+              <div className="grid lg:grid-cols-2 gap-6 mt-6">
+                {/* Weekly Activity */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <BarChart3 className="w-5 h-5 text-blue-600" />
+                      <CardTitle>Weekly Activity</CardTitle>
+                    </div>
+                    <select className="text-sm border rounded px-2 py-1" title="Select time range for weekly activity">
+                      <option>This Week</option>
+                      <option>Last Week</option>
+                      <option>This Month</option>
+                    </select>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Add your BarChart/weekly activity chart here, similar to OverviewPage */}
+                    <div className="h-64 mb-4">[Weekly Activity Chart Here]</div>
+                    <div className="grid grid-cols-4 gap-4 text-center">
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">9,386</div>
+                        <div className="text-xs text-gray-500">Avg Steps</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">7.9 glasses</div>
+                        <div className="text-xs text-gray-500">Avg Water</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">7.9 hours</div>
+                        <div className="text-xs text-gray-500">Avg Sleep</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">46 min</div>
+                        <div className="text-xs text-gray-500">Avg Exercise</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Most Discussed Topics */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Clock className="w-5 h-5 text-blue-600" />
+                      <CardTitle>Most Discussed Topics</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Add your PieChart/topics chart here, similar to OverviewPage */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="h-48">[Most Discussed Topics Chart Here]</div>
+                      <div className="space-y-3">[Topics List Here]</div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 mt-6 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900">47</div>
+                        <div className="text-xs text-gray-500">Total Conversations</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900">8.5</div>
+                        <div className="text-xs text-gray-500">Avg Duration (min)</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900">96%</div>
+                        <div className="text-xs text-gray-500">Resolution Rate</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Health Insights */}
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle className="flex flex-row items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Brain className="w-5 h-5 text-purple-600" />
+                      <span>Health Insights</span>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <TrendingUp className="w-5 h-5 text-green-600" />
+                        <h4 className="font-semibold text-green-900">Excellent Progress</h4>
+                      </div>
+                      <p className="text-sm text-green-700">
+                        Your wellness score has improved by 15% this week. Keep up the great work!
+                      </p>
+                    </div>
+                    <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Heart className="w-5 h-5 text-blue-600" />
+                        <h4 className="font-semibold text-blue-900">Heart Health</h4>
+                      </div>
+                      <p className="text-sm text-blue-700">
+                        Your cardiovascular metrics are showing positive trends with regular exercise.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
