@@ -30,8 +30,8 @@ A modern React-based web application for health vitals monitoring and analysis, 
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd Health-Vitals-AI
+   git clone https://github.com/harshil1876/HealthVitals.git
+   cd HealthVitals
    ```
 
 2. **Install dependencies**
@@ -58,7 +58,7 @@ A modern React-based web application for health vitals monitoring and analysis, 
 ## 🏗️ Project Structure
 
 ```
-Health-Vitals-AI/
+HealthVitals/
 ├── src/                    # Source code
 │   ├── components/         # Reusable UI components
 │   ├── pages/             # Page components
@@ -144,4 +144,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-If you have any questions or need help, please open an issue on GitHub or contact the development team. 
+If you have any questions or need help, please open an issue on GitHub or contact the development team.
