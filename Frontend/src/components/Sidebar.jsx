@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Activity, 
@@ -15,7 +15,8 @@ import {
   TrendingUp
 } from "lucide-react";
 
-const Sidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }) => {
+const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
+  const location = useLocation();
   const navItems = [
     { id: "overview", label: "Overview", icon: Home },
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -32,36 +33,18 @@ const Sidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }) => {
   return (
     <div className={`bg-white shadow-lg transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} flex flex-col`}>
       {/* Sidebar Header */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          {!isCollapsed && (
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <Heart className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-gray-900">HealthVitals</span>
-            </div>
-          )}
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {isCollapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
+      {/* No toggle button here; toggle is in header */}
 
       {/* Navigation Items */}
       <nav className="flex-1 p-2">
         <ul className="space-y-1">
           {navItems.map((item) => {
             const IconComponent = item.icon;
-            const isActive = activeTab === item.id;
-            
+            const isActive = location.pathname === `/${item.id}`;
             return (
               <li key={item.id}>
-                <button
-                  onClick={() => setActiveTab(item.id)}
+                <Link
+                  to={`/${item.id}`}
                   className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                     isActive 
                       ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600' 
@@ -75,7 +58,7 @@ const Sidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }) => {
                       {item.label}
                     </span>
                   )}
-                </button>
+                </Link>
               </li>
             );
           })}

@@ -1,346 +1,197 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { 
-  Heart, 
-  Brain, 
-  MessageCircle, 
-  Settings, 
-  BarChart3, 
-  Calendar,
-  Globe,
-  Mic,
-  MicOff,
-  LogOut,
-  User,
-  Clock,
-  TrendingUp,
-  Shield,
-  Target,
-  Award,
-  Activity,
-  Plus,
-  Edit,
-  Trash2
-} from "lucide-react";
-import SymptomAnalyzer from "./chatbots/SymptomAnalyzer";
-import LifestyleAssistant from "./chatbots/LifestyleAssistant";
-import PersonaAI from "./chatbots/PersonaAI";
-import ProfileSettings from "./ProfileSettings";
-import AnalyticsDashboard from "./AnalyticsDashboard";
-import { useToast } from "@/hooks/use-toast";
+import { Heart, Brain, Target, TrendingUp, CheckCircle, Activity, Bed, Droplet, Utensils, BarChart3, Clock, RefreshCw, AlertTriangle, Lightbulb, MessageCircle, Eye, MoreHorizontal } from "lucide-react";
+import { BarChart, PieChart, Pie, Cell, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip as RechartsTooltip, Bar } from 'recharts';
 
-const Dashboard = ({ user, onLogout }) => {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState("English");
-  const { toast } = useToast();
+const Dashboard = () => {
+  const [timeRange, setTimeRange] = useState("week");
 
-  // Sample goals data
-  const [goals, setGoals] = useState([
+  // Example data for summary cards
+  const summary = [
+    { icon: <Heart className="w-6 h-6 text-blue-500" />, label: "Overall Wellness", value: "88%", change: "+12%", target: "90%" },
+    { icon: <Activity className="w-6 h-6 text-green-500" />, label: "Physical Health", value: "85%", change: "+8%", target: "90%" },
+    { icon: <Brain className="w-6 h-6 text-purple-500" />, label: "Mental Health", value: "90%", change: "+15%", target: "85%" },
+    { icon: <Target className="w-6 h-6 text-orange-500" />, label: "Goal Achievement", value: "92%", change: "+20%", target: "80%" },
+  ];
+
+  // Example data for unified progress trends
+  const trends = [
+    { label: "Avg Wellness", value: "78%", color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "Avg Sleep", value: "7.8h", color: "text-green-600", bg: "bg-green-50" },
+    { label: "Avg Exercise", value: "38min", color: "text-purple-700", bg: "bg-purple-50" },
+    { label: "Avg Nutrition", value: "85%", color: "text-orange-700", bg: "bg-orange-50" },
+    { label: "Avg Hydration", value: "7.6L", color: "text-blue-800", bg: "bg-blue-100" },
+    { label: "Avg Heart Rate", value: "74 BPM", color: "text-red-700", bg: "bg-red-50" },
+  ];
+
+  // Example data for activities and goals
+  const activities = [
+    { label: "Morning Meditation", time: "7:00 AM", duration: "15 min", points: 25, done: true },
+    { label: "Exercise Session", time: "8:30 AM", duration: "45 min", points: 50, done: true },
+    { label: "Health Check-in", time: "2:00 PM", duration: "10 min", points: 20, done: false },
+    { label: "Evening Walk", time: "6:30 PM", duration: "30 min", points: 35, done: false },
+  ];
+  const weeklyGoals = [
+    { label: "Exercise Sessions", value: 5, target: 5, color: "bg-green-500" },
+    { label: "Meditation Minutes", value: 140, target: 150, color: "bg-blue-400" },
+    { label: "Sleep Hours", value: 54, target: 56, color: "bg-blue-600" },
+    { label: "Water Intake", value: 48, target: 56, color: "bg-blue-200" },
+  ];
+
+  // Data for Weekly Activity and Most Discussed Topics
+  const weeklyActivity = [
+    { day: 'Mon', steps: 8200, exercise: 30 },
+    { day: 'Tue', steps: 9100, exercise: 45 },
+    { day: 'Wed', steps: 7500, exercise: 20 },
+    { day: 'Thu', steps: 10500, exercise: 60 },
+    { day: 'Fri', steps: 9500, exercise: 40 },
+    { day: 'Sat', steps: 12000, exercise: 90 },
+    { day: 'Sun', steps: 8800, exercise: 35 }
+  ];
+  const topicsData = [
+    { name: 'Blood Pressure', value: 25, color: '#3b82f6' },
+    { name: 'Medication', value: 20, color: '#10b981' },
+    { name: 'Sleep', value: 18, color: '#8b5cf6' },
+    { name: 'Exercise', value: 15, color: '#f59e0b' },
+    { name: 'Nutrition', value: 12, color: '#ef4444' },
+    { name: 'Stress', value: 10, color: '#8b5cf6' }
+  ];
+  // Health Insights data (updated for new UI)
+  const healthInsights = [
     {
-      id: 1,
-      title: "Exercise 5 times per week",
-      description: "Maintain consistent physical activity",
-      target: 5,
-      current: 3,
-      deadline: "31/12/2024",
-      progress: 60,
-      category: "health"
+      title: 'Blood Pressure Trend',
+      icon: <TrendingUp className="w-6 h-6 text-green-600" />, // left icon
+      color: 'bg-green-100',
+      border: 'border-green-200',
+      text: 'Your blood pressure has been consistently improving over the past 2 weeks. Keep up the good work!',
+      confidence: '92%',
+      confidenceColor: 'text-green-700',
+      recommendation: 'Continue with your current medication schedule and daily walks.',
+      recIcon: <Lightbulb className="w-4 h-4 text-blue-500 mr-1" />,
+      recBg: 'bg-green-50',
     },
     {
-      id: 2,
-      title: "Get 8 hours of sleep",
-      description: "Improve sleep quality and duration",
-      target: 8,
-      current: 7.2,
-      deadline: "31/12/2024",
-      progress: 90,
-      category: "health"
+      title: 'Sleep Pattern Analysis',
+      icon: <AlertTriangle className="w-6 h-6 text-yellow-600" />, // left icon
+      color: 'bg-yellow-100',
+      border: 'border-yellow-200',
+      text: 'Your sleep quality has decreased by 15% this week. Consider adjusting your bedtime routine.',
+      confidence: '87%',
+      confidenceColor: 'text-yellow-700',
+      recommendation: 'Try reducing screen time 1 hour before bed and maintain consistent sleep schedule.',
+      recIcon: <Lightbulb className="w-4 h-4 text-blue-500 mr-1" />,
+      recBg: 'bg-yellow-50',
     },
     {
-      id: 3,
-      title: "Drink 8 glasses of water daily",
-      description: "Stay properly hydrated",
-      target: 8,
-      current: 6.5,
-      deadline: "31/12/2024",
-      progress: 81,
-      category: "health"
-    }
-  ]);
+      title: 'Hydration Insight',
+      icon: <Droplet className="w-6 h-6 text-blue-600" />, // left icon
+      color: 'bg-blue-100',
+      border: 'border-blue-200',
+      text: 'You are meeting 75% of your daily water intake goal. Slight improvement needed.',
+      confidence: '78%',
+      confidenceColor: 'text-blue-700',
+      recommendation: 'Set hourly reminders to drink water throughout the day.',
+      recIcon: <Lightbulb className="w-4 h-4 text-blue-500 mr-1" />,
+      recBg: 'bg-blue-50',
+    },
+  ];
 
-  const toggleVoice = () => {
-    setIsVoiceEnabled(!isVoiceEnabled);
-    toast({
-      title: isVoiceEnabled ? "Voice Disabled" : "Voice Enabled",
-      description: isVoiceEnabled ? "Voice assistant turned off" : "Voice assistant is now active",
-    });
-  };
-
-  const handleLanguageToggle = () => {
-    const languages = ["English", "Spanish", "French", "German", "Chinese"];
-    const currentIndex = languages.indexOf(currentLanguage);
-    const nextLanguage = languages[(currentIndex + 1) % languages.length];
-    setCurrentLanguage(nextLanguage);
-    toast({
-      title: "Language Changed",
-      description: `Interface language set to ${nextLanguage}`,
-    });
-  };
-
-  const getInitials = (name) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
-
-  const addGoal = () => {
-    toast({
-      title: "Add New Goal",
-      description: "Goal creation feature coming soon!",
-    });
-  };
+  // Recent Conversations data (updated for new UI)
+  const recentConversations = [
+    {
+      date: "2024-01-15",
+      time: "10:30 AM",
+      duration: "12 min",
+      sentiment: { label: "positive", color: "text-green-600", dot: "bg-green-400" },
+      confidence: "85%",
+      description: "Discussed recent blood pressure readings and medication adjustments.",
+      tags: ["Blood Pressure", "Medication", "Exercise"],
+    },
+    {
+      date: "2024-01-14",
+      time: "3:45 PM",
+      duration: "8 min",
+      sentiment: { label: "neutral", color: "text-yellow-600", dot: "bg-yellow-400" },
+      confidence: "78%",
+      description: "Talked about sleep quality issues and stress management techniques.",
+      tags: ["Sleep", "Stress", "Nutrition"],
+    },
+    {
+      date: "2024-01-13",
+      time: "9:15 AM",
+      duration: "15 min",
+      sentiment: { label: "concerned", color: "text-red-600", dot: "bg-red-400" },
+      confidence: "72%",
+      description: "Follow-up on previous symptoms and medication effectiveness.",
+      tags: ["Symptoms", "Follow-up", "Medication"],
+    },
+    {
+      date: "2024-01-12",
+      time: "6:20 PM",
+      duration: "10 min",
+      sentiment: { label: "positive", color: "text-green-600", dot: "bg-green-400" },
+      confidence: "88%",
+      description: "Reviewed weekly exercise goals and discussed progress.",
+      tags: ["Exercise", "Goals", "Progress"],
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div className="container mx-auto px-4 py-6 space-y-8">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <Heart className="w-6 h-6 text-white" />
-              </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                  HealthVitals-AI
-                </h1>
-                <p className="text-sm text-gray-600">Welcome back, {user?.name}</p>
+          <h1 className="text-3xl font-bold text-gray-900">Health Dashboard</h1>
+          <p className="text-gray-600">Your comprehensive wellness overview</p>
               </div>
-            </div>
-            
-            {/* Global Controls */}
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleVoice}
-                className={`${isVoiceEnabled ? 'bg-green-50 border-green-200' : 'border-gray-200'}`}
-              >
-                {isVoiceEnabled ? <Mic className="w-4 h-4 text-green-600" /> : <MicOff className="w-4 h-4" />}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleLanguageToggle}>
-                <Globe className="w-4 h-4 mr-1" />
-                {currentLanguage.slice(0, 3)}
-              </Button>
-              <Avatar className="w-8 h-8">
-                <AvatarFallback className="bg-blue-100 text-blue-700 text-sm">
-                  {getInitials(user?.name || "U")}
-                </AvatarFallback>
-              </Avatar>
-              <Button variant="ghost" size="sm" onClick={onLogout}>
-                <LogOut className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+        {/* Time Range Toggle */}
+        <div className="flex justify-end gap-2">
+          {['week', 'month', 'quarter'].map((range) => (
+            <button
+              key={range}
+              onClick={() => setTimeRange(range)}
+              className={`px-4 py-1 rounded border text-sm font-medium ${timeRange === range ? 'bg-blue-600 text-white' : 'bg-white border-gray-300 text-gray-700'}`}
+            >
+              {range.charAt(0).toUpperCase() + range.slice(1)}
+            </button>
+          ))}
         </div>
-      </header>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7 bg-white/60 backdrop-blur-sm border border-blue-100">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-white">Overview</TabsTrigger>
-            <TabsTrigger value="symptom" className="data-[state=active]:bg-white">HealthVitals-AI</TabsTrigger>
-            <TabsTrigger value="lifestyle" className="data-[state=active]:bg-white">Lifestyle</TabsTrigger>
-            <TabsTrigger value="persona" className="data-[state=active]:bg-white">PersonaAI</TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-white">Analytics</TabsTrigger>
-            <TabsTrigger value="goals" className="data-[state=active]:bg-white">Goals</TabsTrigger>
-            <TabsTrigger value="settings" className="data-[state=active]:bg-white">Settings</TabsTrigger>
-          </TabsList>
-
-          {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid gap-6">
-              {/* Quick Stats */}
+        {/* Summary Cards */}
               <div className="grid md:grid-cols-4 gap-4">
-                <Card className="bg-gradient-to-r from-red-50 to-pink-50 border-red-100">
+          {summary.map((s, i) => (
+            <Card key={i} className="relative">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-red-700">Symptom Checks</p>
-                        <p className="text-2xl font-bold text-red-900">12</p>
+                  <div className="flex items-center space-x-2">{s.icon}<span className="font-semibold text-lg">{s.value}</span></div>
+                  <span className="text-xs font-semibold text-green-600">{s.change}</span>
                       </div>
-                      <Brain className="w-8 h-8 text-red-500" />
-                    </div>
+                <div className="text-gray-700 mt-2">{s.label}</div>
+                <div className="text-xs text-gray-400 mt-1">Target: {s.target}</div>
                   </CardContent>
                 </Card>
-                
-                <Card className="bg-gradient-to-r from-green-50 to-teal-50 border-green-100">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-green-700">Wellness Score</p>
-                        <p className="text-2xl font-bold text-green-900">85%</p>
+          ))}
                       </div>
-                      <Heart className="w-8 h-8 text-green-500" />
+        {/* Unified Progress Trends */}
+        <Card>
+                  <CardHeader>
+            <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-600" /> Unified Progress Trends</CardTitle>
+            <CardDescription>Comprehensive view of all your wellness metrics over time</CardDescription>
+                  </CardHeader>
+          <CardContent className="space-y-4">
+            {trends.map((t, i) => (
+              <div key={i} className={`flex items-center justify-between rounded-lg px-6 py-4 mb-2 ${t.bg} shadow-sm hover:scale-[1.01] transition-transform cursor-pointer`}>
+                <span className={`font-bold text-lg ${t.color}`}>{t.value}</span>
+                <span className="text-base font-medium text-gray-700">{t.label}</span>
+                <div className="flex-1 mx-6">
+                  <Progress value={parseInt(t.value)} className="h-2" />
                     </div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-100">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-purple-700">AI Sessions</p>
-                        <p className="text-2xl font-bold text-purple-900">28</p>
-                      </div>
-                      <MessageCircle className="w-8 h-8 text-purple-500" />
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-100">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-blue-700">Days Active</p>
-                        <p className="text-2xl font-bold text-blue-900">15</p>
-                      </div>
-                      <TrendingUp className="w-8 h-8 text-blue-500" />
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
-
-              {/* AI Modalities Quick Access */}
-              <div className="grid md:grid-cols-3 gap-6">
-                <Card className="hover:shadow-lg transition-shadow border-red-100 bg-white/80 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <Brain className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">HealthVitals-AI</CardTitle>
-                        <CardDescription>Intelligent Symptom Analyzer</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Get AI-powered symptom analysis, disease predictions, and personalized health recommendations.
-                    </p>
-                    <Button 
-                      onClick={() => setActiveTab("symptom")}
-                      className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600"
-                    >
-                      Start Symptom Check
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="hover:shadow-lg transition-shadow border-green-100 bg-white/80 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center">
-                        <Heart className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">Lifestyle Assistant</CardTitle>
-                        <CardDescription>Personal Wellness Coach</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Receive personalized wellness coaching, stress management, and lifestyle optimization tips.
-                    </p>
-                    <Button 
-                      onClick={() => setActiveTab("lifestyle")}
-                      className="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
-                    >
-                      Chat with Coach
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="hover:shadow-lg transition-shadow border-purple-100 bg-white/80 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center">
-                        <MessageCircle className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">PersonaAI</CardTitle>
-                        <CardDescription>Adaptive Assessment Engine</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Take intelligent assessments, receive feedback, and track your personal development journey.
-                    </p>
-                    <Button 
-                      onClick={() => setActiveTab("persona")}
-                      className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
-                    >
-                      Start Assessment
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Recent Activity */}
-              <Card className="bg-white/80 backdrop-blur-sm border-blue-100">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Clock className="w-5 h-5" />
-                    <span>Recent Activity</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-100">
-                      <div className="flex items-center space-x-3">
-                        <Brain className="w-5 h-5 text-red-500" />
-                        <div>
-                          <p className="font-medium text-gray-900">Symptom Analysis Completed</p>
-                          <p className="text-sm text-gray-600">Headache and fatigue assessment</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">2 hours ago</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-100">
-                      <div className="flex items-center space-x-3">
-                        <Heart className="w-5 h-5 text-green-500" />
-                        <div>
-                          <p className="font-medium text-gray-900">Wellness Check-in</p>
-                          <p className="text-sm text-gray-600">Daily mood and energy tracking</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">1 day ago</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border border-purple-100">
-                      <div className="flex items-center space-x-3">
-                        <MessageCircle className="w-5 h-5 text-purple-500" />
-                        <div>
-                          <p className="font-medium text-gray-900">PersonaAI Assessment</p>
-                          <p className="text-sm text-gray-600">Stress management evaluation</p>
-                        </div>
-                      </div>
-                      <Badge variant="secondary">3 days ago</Badge>
-                    </div>
-                  </div>
+            ))}
                 </CardContent>
               </Card>
-
               {/* Weekly Activity & Most Discussed Topics */}
-              <div className="grid lg:grid-cols-2 gap-6 mt-6">
-                {/* Weekly Activity */}
+        <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -354,8 +205,18 @@ const Dashboard = ({ user, onLogout }) => {
                     </select>
                   </CardHeader>
                   <CardContent>
-                    {/* Add your BarChart/weekly activity chart here, similar to OverviewPage */}
-                    <div className="h-64 mb-4">[Weekly Activity Chart Here]</div>
+              <div className="h-64 mb-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={weeklyActivity}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="day" stroke="#6b7280" />
+                    <YAxis stroke="#6b7280" />
+                    <RechartsTooltip />
+                    <Bar dataKey="steps" fill="#3b82f6" name="Steps" />
+                    <Bar dataKey="exercise" fill="#10b981" name="Exercise (min)" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
                     <div className="grid grid-cols-4 gap-4 text-center">
                       <div>
                         <div className="text-lg font-bold text-gray-900">9,386</div>
@@ -376,8 +237,6 @@ const Dashboard = ({ user, onLogout }) => {
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Most Discussed Topics */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -386,10 +245,53 @@ const Dashboard = ({ user, onLogout }) => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    {/* Add your PieChart/topics chart here, similar to OverviewPage */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="h-48">[Most Discussed Topics Chart Here]</div>
-                      <div className="space-y-3">[Topics List Here]</div>
+                <div className="h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={topicsData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={60}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ value }) => `${value}%`}
+                      >
+                        {topicsData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <RechartsTooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="space-y-3">
+                  {topicsData.map((topic, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div 
+                          className="w-3 h-3 rounded-full" 
+                          style={{ backgroundColor: topic.color }}
+                        ></div>
+                        <span className="text-sm font-medium">{topic.name}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 bg-gray-200 rounded-full h-1">
+                          <div 
+                            className="h-1 rounded-full" 
+                            style={{ 
+                              width: `${topic.value * 4}%`, 
+                              backgroundColor: topic.color 
+                            }}
+                          ></div>
+                        </div>
+                        <span className="text-xs text-gray-500 w-8">{topic.value}%</span>
+                      </div>
+                      <span className="text-xs text-gray-400">{topic.value}% of conversations</span>
+                    </div>
+                  ))}
+                </div>
                     </div>
                     <div className="grid grid-cols-3 gap-4 mt-6 text-center">
                       <div>
@@ -408,178 +310,129 @@ const Dashboard = ({ user, onLogout }) => {
                   </CardContent>
                 </Card>
               </div>
-
-              {/* Health Insights */}
-              <Card className="mt-6">
+        {/* Activities & Weekly Goals */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Today's Activities */}
+          <Card>
                 <CardHeader>
-                  <CardTitle className="flex flex-row items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Brain className="w-5 h-5 text-purple-600" />
-                      <span>Health Insights</span>
-                    </div>
-                  </CardTitle>
+              <CardTitle className="flex items-center gap-2"><Clock className="w-5 h-5 text-blue-600" /> Today's Activities</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <TrendingUp className="w-5 h-5 text-green-600" />
-                        <h4 className="font-semibold text-green-900">Excellent Progress</h4>
-                      </div>
-                      <p className="text-sm text-green-700">
-                        Your wellness score has improved by 15% this week. Keep up the great work!
-                      </p>
+            <CardContent className="space-y-3">
+              {activities.map((a, i) => (
+                <div key={i} className={`flex items-center justify-between p-3 rounded-lg ${a.done ? 'bg-green-50' : 'bg-gray-50'}`}>
+                  <div className="flex items-center gap-3">
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center ${a.done ? 'bg-green-200' : 'bg-gray-200'}`}>{a.done ? <CheckCircle className="w-4 h-4 text-green-600" /> : <span className="w-3 h-3 bg-white rounded-full border border-gray-400 block" />}</span>
+                    <div>
+                      <div className="font-semibold text-gray-900">{a.label}</div>
+                      <div className="text-xs text-gray-500">{a.time} &nbsp; {a.duration} &nbsp; {a.points} pts</div>
                     </div>
-                    <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Heart className="w-5 h-5 text-blue-600" />
-                        <h4 className="font-semibold text-blue-900">Heart Health</h4>
                       </div>
-                      <p className="text-sm text-blue-700">
-                        Your cardiovascular metrics are showing positive trends with regular exercise.
-                      </p>
+                  {!a.done && <button className="px-3 py-1 rounded bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100 hover:bg-blue-100">Start</button>}
+                    </div>
+              ))}
+            </CardContent>
+          </Card>
+          {/* Weekly Goals */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Target className="w-5 h-5 text-green-600" /> Weekly Goals</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {weeklyGoals.map((g, i) => (
+                <div key={i} className="mb-2">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium text-gray-800">{g.label}</span>
+                    <span className="font-bold text-gray-900">{g.value}/{g.target} <span className="text-xs font-normal">{Math.round((g.value/g.target)*100)}%</span></span>
+                  </div>
+                  <Progress value={Math.round((g.value/g.target)*100)} className={`h-2 ${g.color}`} />
+                </div>
+              ))}
+                </CardContent>
+              </Card>
+        </div>
+        {/* Health Insights (redesigned) */}
+        <Card className="mt-8">
+          <div className="flex items-center justify-between px-6 pt-6">
+            <div className="flex items-center gap-2">
+              <Brain className="w-6 h-6 text-purple-600" />
+              <span className="text-2xl font-bold text-gray-900">Health Insights</span>
+            </div>
+            <button className="flex items-center gap-1 px-3 py-1 border rounded bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium">
+              <RefreshCw className="w-4 h-4 mr-1" /> Refresh
+            </button>
+          </div>
+          <div className="p-6 space-y-6">
+            {healthInsights.map((insight, i) => (
+              <div key={i} className={`rounded-xl p-5 mb-2 flex flex-col gap-3 ${insight.color} ${insight.border}`}
+                style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.03)' }}>
+              <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div>{insight.icon}</div>
+                <div>
+                      <div className="font-bold text-lg text-gray-900">{insight.title}</div>
+                      <div className="text-gray-700 text-base mt-1">{insight.text}</div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Chatbot Tabs */}
-          <TabsContent value="symptom">
-            <SymptomAnalyzer user={user} isVoiceEnabled={isVoiceEnabled} currentLanguage={currentLanguage} />
-          </TabsContent>
-
-          <TabsContent value="lifestyle">
-            <LifestyleAssistant user={user} isVoiceEnabled={isVoiceEnabled} currentLanguage={currentLanguage} />
-          </TabsContent>
-
-          <TabsContent value="persona">
-            <PersonaAI user={user} isVoiceEnabled={isVoiceEnabled} currentLanguage={currentLanguage} />
-          </TabsContent>
-
-          {/* Analytics Tab */}
-          <TabsContent value="analytics">
-            <AnalyticsDashboard user={user} />
-          </TabsContent>
-
-          {/* Goals Tab */}
-          <TabsContent value="goals">
-            <div className="space-y-6">
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Goals</h2>
-                  <p className="text-gray-600">Track and achieve your wellness objectives</p>
+                  <div className="text-sm font-semibold ml-4 whitespace-nowrap">
+                    <span className={insight.confidenceColor}>{insight.confidence} confidence</span>
+                  </div>
                 </div>
-                <Button onClick={addGoal} className="bg-blue-600 hover:bg-blue-700">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Goal
-                </Button>
+                <div className={`rounded-lg px-4 py-3 mt-2 flex items-center ${insight.recBg}`}
+                  style={{ minHeight: '48px' }}>
+                  {insight.recIcon}
+                  <span className="font-medium text-blue-900 mr-2">AI Recommendation</span>
+                  <span className="text-gray-700">{insight.recommendation}</span>
+                </div>
               </div>
-
-              {/* Goals Overview */}
-              <div className="grid md:grid-cols-3 gap-4">
-                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
-                  <CardContent className="p-4 text-center">
-                    <div className="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <Target className="w-6 h-6 text-blue-600" />
+            ))}
                     </div>
-                    <p className="text-2xl font-bold text-blue-900">3</p>
-                    <p className="text-sm text-blue-700">Active Goals</p>
-                    <p className="text-xs text-blue-600 mt-1">Currently working on</p>
-                  </CardContent>
                 </Card>
-
-                <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200">
-                  <CardContent className="p-4 text-center">
-                    <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <Award className="w-6 h-6 text-green-600" />
+        {/* Recent Conversations (redesigned) */}
+        <Card className="mt-8">
+          <div className="flex items-center justify-between px-6 pt-6">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="w-6 h-6 text-blue-500" />
+              <span className="text-2xl font-bold text-gray-900">Recent Conversations</span>
                     </div>
-                    <p className="text-2xl font-bold text-green-900">0</p>
-                    <p className="text-sm text-green-700">Completed</p>
-                    <p className="text-xs text-green-600 mt-1">Successfully achieved</p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
-                  <CardContent className="p-4 text-center">
-                    <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <Clock className="w-6 h-6 text-purple-600" />
+            <button className="flex items-center gap-1 px-3 py-1 border rounded bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium">
+              <MoreHorizontal className="w-4 h-4 mr-1" /> View All
+            </button>
                     </div>
-                    <p className="text-2xl font-bold text-purple-900">77%</p>
-                    <p className="text-sm text-purple-700">Average Progress</p>
-                    <p className="text-xs text-purple-600 mt-1">Across all goals</p>
-                  </CardContent>
-                </Card>
+          <div className="p-6 space-y-6">
+            {recentConversations.map((conv, i) => (
+              <div key={i} className="rounded-xl p-5 mb-2 bg-white border border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-2 shadow-sm">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <MessageCircle className="w-5 h-5 text-blue-400" />
+                    <span className="font-semibold text-base text-gray-900">{conv.date}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-sm text-gray-700">{conv.time}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-sm text-gray-500">Duration: {conv.duration}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className={`flex items-center gap-1 text-sm font-medium ${conv.sentiment.color}`}>
+                      <span className={`w-2 h-2 rounded-full ${conv.sentiment.dot}`}></span> {conv.sentiment.label}
+                    </span>
               </div>
-
-              {/* Active Goals */}
-              <Card className="bg-white/80 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle>Active Goals</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {goals.map((goal) => (
-                    <Card key={goal.id} className="border-l-4 border-l-blue-500">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center space-x-3">
-                            <Badge variant="outline" className="text-xs">
-                              {goal.category}
-                            </Badge>
-                            <Badge variant="outline" className="text-xs">
-                              📅
-                            </Badge>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm">
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
+                  <div className="text-gray-700 text-sm mb-2">{conv.description}</div>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {conv.tags.map((tag, j) => (
+                      <span key={j} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">{tag}</span>
+                    ))}
                           </div>
                         </div>
-                        
-                        <h3 className="font-semibold text-gray-900 mb-1">{goal.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3">{goal.description}</p>
-                        
-                        <div className="grid grid-cols-3 gap-4 text-sm text-gray-600 mb-3">
-                          <div>
-                            <span className="font-medium">Target:</span> {goal.target} {goal.title.includes("Exercise") ? "sessions" : goal.title.includes("sleep") ? "hours" : "glasses"}
+                <div className="flex flex-col items-end gap-2 min-w-[100px]">
+                  <div className="flex items-center gap-1 text-blue-600 font-semibold">
+                    <TrendingUp className="w-4 h-4" /> {conv.confidence}
                           </div>
-                          <div>
-                            <span className="font-medium">Current:</span> {goal.current} {goal.title.includes("Exercise") ? "sessions" : goal.title.includes("sleep") ? "hours" : "glasses"}
-                          </div>
-                          <div>
-                            <span className="font-medium">Deadline:</span> {goal.deadline}
+                  <button className="flex items-center gap-1 px-3 py-1 border rounded bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium">
+                    <Eye className="w-4 h-4" /> View
+                  </button>
                           </div>
                         </div>
-                        
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-700">Progress</span>
-                            <span className="text-sm font-medium text-gray-900">{goal.progress}%</span>
-                          </div>
-                          <Progress 
-                            value={goal.progress} 
-                            className={`h-2 ${goal.progress >= 80 ? 'bg-green-100' : goal.progress >= 50 ? 'bg-yellow-100' : 'bg-red-100'}`}
-                          />
+            ))}
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </CardContent>
               </Card>
-            </div>
-          </TabsContent>
-
-          {/* Settings Tab */}
-          <TabsContent value="settings">
-            <ProfileSettings user={user} />
-          </TabsContent>
-        </Tabs>
       </div>
     </div>
   );

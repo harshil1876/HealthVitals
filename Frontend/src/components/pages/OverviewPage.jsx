@@ -25,7 +25,11 @@ import {
   LogOut,
   ChevronDown,
   Bell,
-  Timer
+  Timer,
+  Apple,
+  Dumbbell,
+  Brain as BrainIcon,
+  Sparkles
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 
@@ -182,21 +186,22 @@ const OverviewPage = ({ user, setActiveTab, currentLanguage = "English", getText
     }
   ];
 
+  // AI Health Tips data
   const aiHealthTips = [
     {
-      category: getText("Nutrition", "पोषण"),
-      tip: getText("Based on your recent conversations, consider adding more leafy greens to your diet for better iron absorption.", "आपकी हाल की बातचीत के आधार पर, बेहतर आयरन अवशोषण के लिए अपने आहार में अधिक हरी पत्तेदार सब्जियां शामिल करने पर विचार करें।"),
-      icon: Heart
+      icon: <Apple className="w-6 h-6 text-blue-400" />,
+      category: 'Nutrition',
+      tip: 'Based on your recent conversations, consider adding more leafy greens to your diet for better iron absorption.'
     },
     {
-      category: getText("Exercise", "व्यायाम"),
-      tip: getText("Your step count is excellent! Try adding 10 minutes of strength training twice a week.", "आपका कदम गिनती उत्कृष्ट है! सप्ताह में दो बार 10 मिनट की शक्ति प्रशिक्षण जोड़ने की कोशिश करें।"),
-      icon: Activity
+      icon: <Dumbbell className="w-6 h-6 text-blue-400" />,
+      category: 'Exercise',
+      tip: 'Your step count is excellent! Try adding 10 minutes of strength training twice a week.'
     },
     {
-      category: getText("Mental Health", "मानसिक स्वास्थ्य"),
-      tip: getText("Your stress levels seem elevated. Consider trying 5-minute breathing exercises daily.", "आपका तनाव का स्तर ऊंचा लगता है। दैनिक 5 मिनट की सांस लेने के व्यायाम करने पर विचार करें।"),
-      icon: Brain
+      icon: <BrainIcon className="w-6 h-6 text-blue-400" />,
+      category: 'Mental Health',
+      tip: 'Your stress levels seem elevated. Consider trying 5-minute breathing exercises daily.'
     }
   ];
 
@@ -498,171 +503,23 @@ const OverviewPage = ({ user, setActiveTab, currentLanguage = "English", getText
           </CardContent>
         </Card>
       </div>
-
-      {/* Weekly Activity & Most Discussed Topics */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <BarChart className="w-5 h-5 text-blue-600" />
-              <CardTitle>{getText("Weekly Activity", "साप्ताहिक गतिविधि")}</CardTitle>
+      {/* AI Health Tips */}
+      <Card className="mt-6">
+        <div className="flex items-center gap-2 px-6 pt-6">
+          <Sparkles className="w-6 h-6 text-blue-400" />
+          <span className="text-2xl font-bold text-gray-900">AI Health Tips</span>
+        </div>
+        <div className="p-6 pt-4 grid md:grid-cols-3 gap-4">
+          {aiHealthTips.map((tip, i) => (
+            <div key={i} className="rounded-lg bg-blue-50/40 border border-blue-100 p-5 flex flex-col gap-2">
+              <div className="flex items-center gap-2 mb-1">
+                {tip.icon}
+                <span className="font-semibold text-blue-600 text-base">{tip.category}</span>
+              </div>
+              <div className="text-gray-700 text-sm">{tip.tip}</div>
             </div>
-            <select className="text-sm border rounded px-2 py-1">
-              <option>{getText("This Week", "इस सप्ताह")}</option>
-              <option>{getText("Last Week", "पिछला सप्ताह")}</option>
-              <option>{getText("This Month", "इस महीने")}</option>
-            </select>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64 mb-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={weeklyActivity}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="day" stroke="#6b7280" />
-                  <YAxis stroke="#6b7280" />
-                  <Tooltip />
-                  <Bar dataKey="steps" fill="#3b82f6" name={getText("Steps", "कदम")} />
-                  <Bar dataKey="exercise" fill="#10b981" name={getText("Exercise (min)", "व्यायाम (मिनट)")} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="grid grid-cols-4 gap-4 text-center">
-              <div>
-                <div className="text-lg font-bold text-gray-900">9,386</div>
-                <div className="text-xs text-gray-500">{getText("Avg Steps", "औसत कदम")}</div>
-              </div>
-              <div>
-                <div className="text-lg font-bold text-gray-900">7.9 glasses</div>
-                <div className="text-xs text-gray-500">{getText("Avg Water", "औसत पानी")}</div>
-              </div>
-              <div>
-                <div className="text-lg font-bold text-gray-900">7.9 hours</div>
-                <div className="text-xs text-gray-500">{getText("Avg Sleep", "औसत नींद")}</div>
-              </div>
-              <div>
-                <div className="text-lg font-bold text-gray-900">46 min</div>
-                <div className="text-xs text-gray-500">{getText("Avg Exercise", "औसत व्यायाम")}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-blue-600" />
-              <CardTitle>{getText("Most Discussed Topics", "सबसे अधिक चर्चित विषय")}</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={topicsData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={60}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label={({ value }) => `${value}%`}
-                    >
-                      {topicsData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="space-y-3">
-                {topicsData.map((topic, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: topic.color }}
-                      ></div>
-                      <span className="text-sm font-medium">{topic.name}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-1">
-                        <div 
-                          className="h-1 rounded-full" 
-                          style={{ 
-                            width: `${topic.value * 4}%`, 
-                            backgroundColor: topic.color 
-                          }}
-                        ></div>
-                      </div>
-                      <span className="text-xs text-gray-500 w-8">{topic.value}%</span>
-                    </div>
-                    <span className="text-xs text-gray-400">{topic.value}% {getText("of conversations", "बातचीत का")}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-4 mt-6 text-center">
-              <div>
-                <div className="text-2xl font-bold text-gray-900">47</div>
-                <div className="text-xs text-gray-500">{getText("Total Conversations", "कुल बातचीत")}</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-gray-900">8.5</div>
-                <div className="text-xs text-gray-500">{getText("Avg Duration (min)", "औसत अवधि (मिनट)")}</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-gray-900">96%</div>
-                <div className="text-xs text-gray-500">{getText("Resolution Rate", "समाधान दर")}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Health Insights */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Brain className="w-5 h-5 text-purple-600" />
-              <span>{getText("Health Insights", "स्वास्थ्य अंतर्दृष्टि")}</span>
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
-              <div className="flex items-center space-x-2 mb-2">
-                <TrendingUp className="w-5 h-5 text-green-600" />
-                <h4 className="font-semibold text-green-900">
-                  {getText("Excellent Progress", "उत्कृष्ट प्रगति")}
-                </h4>
-              </div>
-              <p className="text-sm text-green-700">
-                {getText(
-                  "Your wellness score has improved by 15% this week. Keep up the great work!",
-                  "आपका कल्याण स्कोर इस सप्ताह 15% सुधार हुआ है। अच्छा काम जारी रखें!"
-                )}
-              </p>
-            </div>
-            <div className="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-              <div className="flex items-center space-x-2 mb-2">
-                <Heart className="w-5 h-5 text-blue-600" />
-                <h4 className="font-semibold text-blue-900">
-                  {getText("Heart Health", "हृदय स्वास्थ्य")}
-                </h4>
-              </div>
-              <p className="text-sm text-blue-700">
-                {getText(
-                  "Your cardiovascular metrics are showing positive trends with regular exercise.",
-                  "नियमित व्यायाम से आपके हृदय संबंधी मेट्रिक्स में सकारात्मक रुझान दिख रहे हैं।"
-                )}
-              </p>
-            </div>
-          </div>
-        </CardContent>
+          ))}
+        </div>
       </Card>
     </div>
   );

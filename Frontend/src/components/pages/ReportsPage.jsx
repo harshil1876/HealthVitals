@@ -16,7 +16,8 @@ import {
   Eye,
   Clock,
   Award,
-  AlertCircle
+  AlertCircle,
+  Target as FocusTarget
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { useToast } from "@/hooks/use-toast";
@@ -447,45 +448,41 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
         </CardContent>
       </Card>
 
-      {/* Weekly Summary */}
-      <Card className="bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl">Weekly Summary</CardTitle>
-          <CardDescription className="text-green-100">Your wellness journey this week</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3 flex items-center">
-                <Award className="w-5 h-5 mr-2" />
-                Key Achievements
-              </h3>
-              <ul className="space-y-2">
-                {weeklyAchievements.map((achievement, index) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span>{achievement}</span>
-                  </li>
-                ))}
-              </ul>
+      {/* Weekly Summary (at the end) */}
+      <div className="mt-10 rounded-2xl overflow-hidden bg-gradient-to-r from-blue-50 via-white to-green-50 p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Weekly Summary</h2>
+        <p className="text-gray-500 mb-6">Your wellness journey this week</p>
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Key Achievements */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Award className="w-5 h-5 text-blue-400" />
+              <span className="font-semibold text-lg text-gray-800">Key Achievements</span>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-3 flex items-center">
-                <AlertCircle className="w-5 h-5 mr-2" />
-                Areas for Focus
-              </h3>
-              <ul className="space-y-2">
-                {areasForFocus.map((area, index) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-yellow-300 rounded-full"></div>
-                    <span>{area}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="space-y-2">
+              {weeklyAchievements.map((item, i) => (
+                <li key={i} className="text-base text-blue-900 font-medium flex items-center">
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-        </CardContent>
-      </Card>
+          {/* Areas for Focus */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <FocusTarget className="w-5 h-5 text-green-400" />
+              <span className="font-semibold text-lg text-gray-800">Areas for Focus</span>
+            </div>
+            <ul className="space-y-2">
+              {areasForFocus.map((item, i) => (
+                <li key={i} className="text-base text-green-900 font-medium flex items-center">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
