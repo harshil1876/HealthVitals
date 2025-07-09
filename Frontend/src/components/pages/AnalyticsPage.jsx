@@ -13,7 +13,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) => en }) => {
   const [selectedPeriod, setSelectedPeriod] = useState("month");
-  const [selectedMetric, setSelectedMetric] = useState("wellness");
 
   // Enhanced emotional trends data
   const emotionalTrendsData = [
@@ -188,30 +187,33 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
+      {/* Page Heading and Actions */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-2 border-b">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            {getText("Analytics Dashboard", "एनालिटिक्स डैशबोर्ड")}
-          </h1>
-          <p className="text-gray-600">
-            {getText("Detailed insights into your health and wellness patterns", "आपके स्वास्थ्य और कल्याण पैटर्न में विस्तृत अंतर्दृष्टि")}
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+          <p className="text-gray-600 text-base">Comprehensive view of your wellness journey and insights</p>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap gap-2 items-center">
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium shadow-sm transition">
+            <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            View History
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 text-sm font-medium shadow-sm transition">
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+            Export Report
+          </button>
           <select 
             value={selectedPeriod} 
             onChange={(e) => setSelectedPeriod(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm"
+            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="week">{getText("This Week", "इस सप्ताह")}</option>
-            <option value="month">{getText("This Month", "इस महीने")}</option>
-            <option value="quarter">{getText("This Quarter", "इस तिमाही")}</option>
-            <option value="year">{getText("This Year", "इस साल")}</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="quarter">This Quarter</option>
+            <option value="year">This Year</option>
           </select>
         </div>
       </div>
-
       {/* Wellness Trend & Progress Visualization */}
       <Card>
         <CardHeader>
@@ -245,7 +247,6 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
               </AreaChart>
             </ResponsiveContainer>
           </div>
-          
           <div className="grid md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
               <div className="text-2xl font-bold text-green-900">88%</div>
@@ -271,7 +272,7 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
         </CardContent>
       </Card>
 
-      {/* Emotional Pattern Analysis */}
+      {/* Emotional Trends Over Time */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
@@ -310,7 +311,6 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
               </LineChart>
             </ResponsiveContainer>
           </div>
-          
           <div className="grid md:grid-cols-3 gap-4">
             <div className="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
               <div className="flex items-center justify-between mb-2">
@@ -343,7 +343,7 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
         </CardContent>
       </Card>
 
-      {/* Health Metrics Overview */}
+      {/* Key Health Metrics & Weekly Activity Summary */}
       <div className="grid lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>

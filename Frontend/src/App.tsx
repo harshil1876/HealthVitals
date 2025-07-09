@@ -9,7 +9,7 @@ import SymptomAnalyzer from "./components/chatbots/SymptomAnalyzer";
 import LifestyleAssistant from "./components/chatbots/LifestyleAssistant";
 import PersonaAI from "./components/chatbots/PersonaAI";
 import InsightsPage from "./components/pages/InsightsPage";
-import AnalyticsDashboard from "./components/AnalyticsDashboard";
+import AnalyticsPage from "./components/pages/AnalyticsPage";
 import GoalsPage from "./components/pages/GoalsPage";
 import ReportsPage from "./components/pages/ReportsPage";
 import ProfileSettings from "./components/ProfileSettings";
@@ -90,7 +90,7 @@ const App = () => (
             path="/analytics"
             element={
               <Layout user={user} onLogout={onLogout}>
-                <AnalyticsDashboard />
+                <AnalyticsPage />
               </Layout>
             }
           />
