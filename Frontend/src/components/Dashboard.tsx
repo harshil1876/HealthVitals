@@ -139,59 +139,59 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <div className="container mx-auto px-4 py-6 space-y-8">
-      {/* Header */}
-              <div>
-          <h1 className="text-3xl font-bold text-gray-900">Health Dashboard</h1>
-          <p className="text-gray-600">Your comprehensive wellness overview</p>
-              </div>
+      <div className="container mx-auto px-6 py-10 space-y-10">
+        {/* Header */}
+        <div className="mb-2">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight mb-1">Health Dashboard</h1>
+          <p className="text-lg text-gray-500 font-medium">Your comprehensive wellness overview</p>
+        </div>
         {/* Time Range Toggle */}
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-3 mb-4">
           {['week', 'month', 'quarter'].map((range) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-1 rounded border text-sm font-medium ${timeRange === range ? 'bg-blue-600 text-white' : 'bg-white border-gray-300 text-gray-700'}`}
+              className={`px-5 py-2 rounded-lg border text-base font-semibold shadow-sm transition-all duration-150 ${timeRange === range ? 'bg-blue-600 text-white border-blue-600 scale-105' : 'bg-white border-gray-300 text-gray-700 hover:bg-blue-50'}`}
             >
               {range.charAt(0).toUpperCase() + range.slice(1)}
             </button>
           ))}
         </div>
         {/* Summary Cards */}
-              <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-4 gap-6">
           {summary.map((s, i) => (
-            <Card key={i} className="relative">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">{s.icon}<span className="font-semibold text-lg">{s.value}</span></div>
-                  <span className="text-xs font-semibold text-green-600">{s.change}</span>
-                      </div>
-                <div className="text-gray-700 mt-2">{s.label}</div>
-                <div className="text-xs text-gray-400 mt-1">Target: {s.target}</div>
-                  </CardContent>
-                </Card>
+            <Card key={i} className="relative hover:shadow-2xl hover:scale-[1.025] transition-transform duration-200">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">{s.icon}<span className="font-semibold text-2xl">{s.value}</span></div>
+                  <span className="text-sm font-semibold text-green-600">{s.change}</span>
+                </div>
+                <div className="text-gray-800 font-semibold text-lg mb-1">{s.label}</div>
+                <div className="text-xs text-gray-400">Target: {s.target}</div>
+              </CardContent>
+            </Card>
           ))}
-                      </div>
+        </div>
         {/* Unified Progress Trends */}
-        <Card>
-                  <CardHeader>
-            <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-600" /> Unified Progress Trends</CardTitle>
+        <Card className="hover:shadow-xl transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-semibold"><BarChart3 className="w-6 h-6 text-blue-600" /> Unified Progress Trends</CardTitle>
             <CardDescription>Comprehensive view of all your wellness metrics over time</CardDescription>
-                  </CardHeader>
+          </CardHeader>
           <CardContent className="space-y-4">
             {trends.map((t, i) => (
-              <div key={i} className={`flex items-center justify-between rounded-lg px-6 py-4 mb-2 ${t.bg} shadow-sm hover:scale-[1.01] transition-transform cursor-pointer`}>
-                <span className={`font-bold text-lg ${t.color}`}>{t.value}</span>
-                <span className="text-base font-medium text-gray-700">{t.label}</span>
+              <div key={i} className={`flex items-center justify-between rounded-xl px-7 py-4 mb-2 ${t.bg} shadow-sm hover:scale-[1.01] transition-transform cursor-pointer`}>
+                <span className={`font-semibold text-xl ${t.color}`}>{t.value}</span>
+                <span className="text-base font-semibold text-gray-700">{t.label}</span>
                 <div className="flex-1 mx-6">
-                  <Progress value={parseInt(t.value)} className="h-2" />
-                    </div>
+                  <Progress value={parseInt(t.value)} className="h-2 rounded-full" />
+                </div>
               </div>
             ))}
-                </CardContent>
-              </Card>
-              {/* Weekly Activity & Most Discussed Topics */}
-        <div className="grid lg:grid-cols-2 gap-6">
+          </CardContent>
+        </Card>
+        {/* Weekly Activity & Most Discussed Topics */}
+        <div className="grid lg:grid-cols-2 gap-8">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -219,19 +219,19 @@ const Dashboard = () => {
               </div>
                     <div className="grid grid-cols-4 gap-4 text-center">
                       <div>
-                        <div className="text-lg font-bold text-gray-900">9,386</div>
+                        <div className="text-lg font-semibold text-gray-900">9,386</div>
                         <div className="text-xs text-gray-500">Avg Steps</div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-gray-900">7.9 glasses</div>
+                        <div className="text-lg font-semibold text-gray-900">7.9 glasses</div>
                         <div className="text-xs text-gray-500">Avg Water</div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-gray-900">7.9 hours</div>
+                        <div className="text-lg font-semibold text-gray-900">7.9 hours</div>
                         <div className="text-xs text-gray-500">Avg Sleep</div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-gray-900">46 min</div>
+                        <div className="text-lg font-semibold text-gray-900">46 min</div>
                         <div className="text-xs text-gray-500">Avg Exercise</div>
                       </div>
                     </div>
@@ -295,15 +295,15 @@ const Dashboard = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-4 mt-6 text-center">
                       <div>
-                        <div className="text-2xl font-bold text-gray-900">47</div>
+                        <div className="text-2xl font-semibold text-gray-900">47</div>
                         <div className="text-xs text-gray-500">Total Conversations</div>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-gray-900">8.5</div>
+                        <div className="text-2xl font-semibold text-gray-900">8.5</div>
                         <div className="text-xs text-gray-500">Avg Duration (min)</div>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-gray-900">96%</div>
+                        <div className="text-2xl font-semibold text-gray-900">96%</div>
                         <div className="text-xs text-gray-500">Resolution Rate</div>
                       </div>
                     </div>
@@ -342,7 +342,7 @@ const Dashboard = () => {
                 <div key={i} className="mb-2">
                   <div className="flex justify-between items-center mb-1">
                     <span className="font-medium text-gray-800">{g.label}</span>
-                    <span className="font-bold text-gray-900">{g.value}/{g.target} <span className="text-xs font-normal">{Math.round((g.value/g.target)*100)}%</span></span>
+                    <span className="font-semibold text-gray-900">{g.value}/{g.target} <span className="text-xs font-normal">{Math.round((g.value/g.target)*100)}%</span></span>
                   </div>
                   <Progress value={Math.round((g.value/g.target)*100)} className={`h-2 ${g.color}`} />
                 </div>

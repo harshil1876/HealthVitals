@@ -237,7 +237,7 @@ const CommonDashboard = ({ user, currentLanguage = "English", getText = (en, hi)
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-semibold text-gray-900">
             {getText("Health Dashboard", "स्वास्थ्य डैशबोर्ड")}
           </h1>
           <p className="text-gray-600">
@@ -270,7 +270,7 @@ const CommonDashboard = ({ user, currentLanguage = "English", getText = (en, hi)
                     {metric.change}
                   </Badge>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">{metric.current}%</h3>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-1">{metric.current}%</h3>
                 <p className="text-gray-600 text-sm">{metric.title}</p>
                 <div className="mt-3">
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -331,27 +331,27 @@ const CommonDashboard = ({ user, currentLanguage = "English", getText = (en, hi)
           
           <div className="grid md:grid-cols-6 gap-4">
             <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-900">78%</div>
+              <div className="text-2xl font-semibold text-blue-900">78%</div>
               <div className="text-sm text-blue-700">{getText("Avg Wellness", "औसत कल्याण")}</div>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-900">7.8h</div>
+              <div className="text-2xl font-semibold text-green-900">7.8h</div>
               <div className="text-sm text-green-700">{getText("Avg Sleep", "औसत नींद")}</div>
             </div>
             <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-900">38min</div>
+              <div className="text-2xl font-semibold text-purple-900">38min</div>
               <div className="text-sm text-purple-700">{getText("Avg Exercise", "औसत व्यायाम")}</div>
             </div>
             <div className="text-center p-3 bg-orange-50 rounded-lg">
-              <div className="text-2xl font-bold text-orange-900">85%</div>
+              <div className="text-2xl font-semibold text-orange-900">85%</div>
               <div className="text-sm text-orange-700">{getText("Avg Nutrition", "औसत पोषण")}</div>
             </div>
             <div className="text-center p-3 bg-cyan-50 rounded-lg">
-              <div className="text-2xl font-bold text-cyan-900">7.6L</div>
+              <div className="text-2xl font-semibold text-cyan-900">7.6L</div>
               <div className="text-sm text-cyan-700">{getText("Avg Hydration", "औसत जलयोजन")}</div>
             </div>
             <div className="text-center p-3 bg-red-50 rounded-lg">
-              <div className="text-2xl font-bold text-red-900">74 BPM</div>
+              <div className="text-2xl font-semibold text-red-900">74 BPM</div>
               <div className="text-sm text-red-700">{getText("Avg Heart Rate", "औसत हृदय गति")}</div>
             </div>
           </div>

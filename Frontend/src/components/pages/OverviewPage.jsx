@@ -240,287 +240,275 @@ const OverviewPage = ({ user, setActiveTab, currentLanguage = "English", getText
   };
 
   return (
-    <div className="space-y-6">
-      {/* User Profile Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            {getText(`Good morning, ${user?.name}! 👋`, `सुप्रभात, ${user?.name}! 👋`)}
-          </h1>
-          <p className="text-gray-600">
-            {getText("Here's your health overview for today", "यहाँ आज के लिए आपका स्वास्थ्य अवलोकन है")}
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div className="container mx-auto px-6 py-10 space-y-10">
+        {/* Header */}
+        <div className="mb-2">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight mb-1">Overview</h1>
+          <p className="text-lg text-gray-500 font-medium">Your daily health summary and quick actions</p>
         </div>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid md:grid-cols-4 gap-4">
-        {summaryCards.map((card, index) => {
-          const IconComponent = card.icon;
-          return (
-            <Card key={index} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div className={`w-10 h-10 ${card.bgColor} rounded-lg flex items-center justify-center`}>
-                    <IconComponent className={`w-5 h-5 ${card.color}`} />
-                  </div>
+        {/* Summary Cards */}
+        <div className="grid md:grid-cols-4 gap-6 mb-8">
+          {summaryCards.map((card, i) => (
+            <Card key={i} className="hover:shadow-2xl hover:scale-[1.025] transition-transform duration-200">
+              <CardContent className={`p-6 flex flex-col gap-2 ${card.bgColor}`}> 
+                <div className="flex items-center gap-3 mb-2">
+                  <card.icon className={`w-7 h-7 ${card.color}`} />
+                  <span className="font-semibold text-2xl text-gray-900">{card.value}</span>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-600">{card.title}</p>
-                  <p className="text-xl font-bold text-gray-900">{card.value}</p>
-                  <p className="text-xs text-green-600">{card.subtitle}</p>
-                </div>
+                <div className="text-gray-800 font-semibold text-lg mb-1">{card.title}</div>
+                <div className="text-xs text-gray-400">{card.subtitle}</div>
               </CardContent>
             </Card>
-          );
-        })}
-      </div>
-
-      {/* AI Assistants Quick Access */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("symptom")}>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Activity className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">HealthVitals-AI</h3>
-                <p className="text-gray-600">{getText("Symptom Analysis", "लक्षण विश्लेषण")}</p>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-4">
-              {getText("Get AI-powered health insights and symptom analysis with personalized recommendations.", "व्यक्तिगत सिफारिशों के साथ AI-संचालित स्वास्थ्य अंतर्दृष्टि और लक्षण विश्लेषण प्राप्त करें।")}
-            </p>
-            <Button className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600">
-              {getText("Start Analysis", "विश्लेषण शुरू करें")}
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("lifestyle")}>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Heart className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">{getText("Lifestyle Coach", "जीवनशैली कोच")}</h3>
-                <p className="text-gray-600">{getText("Wellness Guidance", "कल्याण मार्गदर्शन")}</p>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-4">
-              {getText("Receive personalized lifestyle coaching and wellness tips tailored to your needs.", "अपनी आवश्यकताओं के अनुरूप व्यक्तिगत जीवनशैली कोचिंग और कल्याण सुझाव प्राप्त करें।")}
-            </p>
-            <Button className="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600">
-              {getText("Get Coaching", "कोचिंग प्राप्त करें")}
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("persona")}>
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Brain className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">PersonaAI</h3>
-                <p className="text-gray-600">{getText("Assessment Engine", "मूल्यांकन इंजन")}</p>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-4">
-              {getText("Take intelligent assessments and receive personalized feedback on your wellness journey.", "बुद्धिमान मूल्यांकन लें और अपनी कल्याण यात्रा पर व्यक्तिगत प्रतिक्रिया प्राप्त करें।")}
-            </p>
-            <Button className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
-              {getText("Start Assessment", "मूल्यांकन शुरू करें")}
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Insights & Quick Actions */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Lightbulb className="w-5 h-5 text-blue-600" />
-              <CardTitle>{getText("Recent Insights", "हाल की अंतर्दृष्टि")}</CardTitle>
-            </div>
-            <Button variant="outline" size="sm">
-              <Plus className="w-4 h-4 mr-1" />
-              {getText("View All", "सभी देखें")}
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentInsights.map((insight, index) => {
-              const IconComponent = insight.icon;
-              return (
-                <div key={index} className={`p-4 rounded-lg border ${insight.color}`}>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                      <IconComponent className="w-4 h-4 text-red-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{insight.title}</h4>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs text-gray-500">{insight.time}</span>
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-2">{insight.description}</p>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant={insight.priority === 'HIGH' ? 'destructive' : 'secondary'} className="text-xs">
-                          {insight.priority}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {insight.category}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Zap className="w-5 h-5 text-blue-600" />
-              <CardTitle>{getText("Quick Actions", "त्वरित क्रियाएं")}</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-3">
-              {quickActions.map((action, index) => {
-                const IconComponent = action.icon;
-                return (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    className="h-auto p-4 flex flex-col items-center space-y-2 hover:shadow-md transition-shadow"
-                    onClick={action.action}
-                  >
-                    <div className={`w-10 h-10 rounded-lg ${action.color} flex items-center justify-center`}>
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <div className="text-center">
-                      <div className="font-medium text-sm">{action.title}</div>
-                      <div className="text-xs text-gray-500 mt-1">{action.description}</div>
-                    </div>
-                  </Button>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Active Goals & Upcoming Reminders */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Target className="w-5 h-5 text-blue-600" />
-              <CardTitle>{getText("Active Goals", "सक्रिय लक्ष्य")}</CardTitle>
-            </div>
-            <Button variant="outline" size="sm">
-              <Plus className="w-4 h-4 mr-1" />
-              {getText("Add Goal", "लक्ष्य जोड़ें")}
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              {activeGoals.map((goal, index) => {
-                const IconComponent = goal.icon;
-                return (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <IconComponent className="w-5 h-5 text-blue-600" />
-                      <h4 className="font-medium">{goal.title}</h4>
-                    </div>
-                    <div className="mb-2">
-                      <div className="text-sm text-gray-600 mb-1">
-                        {goal.current} / {goal.target} {goal.title.includes('Steps') ? getText('steps', 'कदम') : goal.title.includes('Water') ? getText('glasses', 'गिलास') : goal.title.includes('Sleep') ? getText('hours', 'घंटे') : getText('minutes', 'मिनट')}
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg font-bold text-blue-600">{goal.percentage}%</span>
-                      </div>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full ${goal.color === 'blue' ? 'bg-blue-500' : goal.color === 'green' ? 'bg-green-500' : goal.color === 'purple' ? 'bg-purple-500' : 'bg-orange-500'}`}
-                        style={{ width: `${goal.percentage}%` }}
-                      ></div>
-                    </div>
-                    <Button variant="ghost" size="sm" className="w-full mt-2 text-xs">
-                      <Plus className="w-3 h-3 mr-1" />
-                      {getText("Log Progress", "प्रगति लॉग करें")}
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Bell className="w-5 h-5 text-blue-600" />
-                <CardTitle>{getText("Upcoming Reminders", "आगामी अनुस्मारक")}</CardTitle>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {upcomingReminders.map((reminder, index) => {
-              const IconComponent = reminder.icon;
-              return (
-                <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                    <IconComponent className={`w-4 h-4 ${reminder.color}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">{reminder.title}</h4>
-                    <p className="text-sm text-gray-500">{reminder.time}</p>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <div className="flex items-center space-x-2 mb-2">
-                <Star className="w-4 h-4 text-blue-600" />
-                <span className="font-medium text-blue-900">{getText("Daily Motivation", "दैनिक प्रेरणा")}</span>
-              </div>
-              <p className="text-sm text-blue-700 italic">
-                {getText('"The groundwork for all happiness is good health."', '"सभी खुशी की नींव अच्छा स्वास्थ्य है।"')}
-              </p>
-              <p className="text-xs text-blue-600 mt-1">- Leigh Hunt</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      {/* AI Health Tips */}
-      <Card className="mt-6">
-        <div className="flex items-center gap-2 px-6 pt-6">
-          <Sparkles className="w-6 h-6 text-blue-400" />
-          <span className="text-2xl font-bold text-gray-900">AI Health Tips</span>
-        </div>
-        <div className="p-6 pt-4 grid md:grid-cols-3 gap-4">
-          {aiHealthTips.map((tip, i) => (
-            <div key={i} className="rounded-lg bg-blue-50/40 border border-blue-100 p-5 flex flex-col gap-2">
-              <div className="flex items-center gap-2 mb-1">
-                {tip.icon}
-                <span className="font-semibold text-blue-600 text-base">{tip.category}</span>
-              </div>
-              <div className="text-gray-700 text-sm">{tip.tip}</div>
-            </div>
           ))}
         </div>
-      </Card>
+
+        {/* AI Assistants Quick Access */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("symptom")}>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Activity className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">HealthVitals-AI</h3>
+                  <p className="text-gray-600">{getText("Symptom Analysis", "लक्षण विश्लेषण")}</p>
+                </div>
+              </div>
+              <p className="text-gray-700 mb-4">
+                {getText("Get AI-powered health insights and symptom analysis with personalized recommendations.", "व्यक्तिगत सिफारिशों के साथ AI-संचालित स्वास्थ्य अंतर्दृष्टि और लक्षण विश्लेषण प्राप्त करें।")}
+              </p>
+              <Button className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600">
+                {getText("Start Analysis", "विश्लेषण शुरू करें")}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("lifestyle")}>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Heart className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">{getText("Lifestyle Coach", "जीवनशैली कोच")}</h3>
+                  <p className="text-gray-600">{getText("Wellness Guidance", "कल्याण मार्गदर्शन")}</p>
+                </div>
+              </div>
+              <p className="text-gray-700 mb-4">
+                {getText("Receive personalized lifestyle coaching and wellness tips tailored to your needs.", "अपनी आवश्यकताओं के अनुरूप व्यक्तिगत जीवनशैली कोचिंग और कल्याण सुझाव प्राप्त करें।")}
+              </p>
+              <Button className="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600">
+                {getText("Get Coaching", "कोचिंग प्राप्त करें")}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => setActiveTab("persona")}>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Brain className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">PersonaAI</h3>
+                  <p className="text-gray-600">{getText("Assessment Engine", "मूल्यांकन इंजन")}</p>
+                </div>
+              </div>
+              <p className="text-gray-700 mb-4">
+                {getText("Take intelligent assessments and receive personalized feedback on your wellness journey.", "बुद्धिमान मूल्यांकन लें और अपनी कल्याण यात्रा पर व्यक्तिगत प्रतिक्रिया प्राप्त करें।")}
+              </p>
+              <Button className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
+                {getText("Start Assessment", "मूल्यांकन शुरू करें")}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Recent Insights & Quick Actions */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Lightbulb className="w-5 h-5 text-blue-600" />
+                <CardTitle>{getText("Recent Insights", "हाल की अंतर्दृष्टि")}</CardTitle>
+              </div>
+              <Button variant="outline" size="sm">
+                <Plus className="w-4 h-4 mr-1" />
+                {getText("View All", "सभी देखें")}
+              </Button>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {recentInsights.map((insight, index) => {
+                const IconComponent = insight.icon;
+                return (
+                  <div key={index} className={`p-4 rounded-lg border ${insight.color}`}>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <IconComponent className="w-4 h-4 text-red-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-semibold text-gray-900">{insight.title}</h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-500">{insight.time}</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">{insight.description}</p>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant={insight.priority === 'HIGH' ? 'destructive' : 'secondary'} className="text-xs">
+                            {insight.priority}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {insight.category}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Zap className="w-5 h-5 text-blue-600" />
+                <CardTitle>{getText("Quick Actions", "त्वरित क्रियाएं")}</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                {quickActions.map((action, index) => {
+                  const IconComponent = action.icon;
+                  return (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      className="h-auto p-4 flex flex-col items-center space-y-2 hover:shadow-md transition-shadow"
+                      onClick={action.action}
+                    >
+                      <div className={`w-10 h-10 rounded-lg ${action.color} flex items-center justify-center`}>
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      <div className="text-center">
+                        <div className="font-medium text-sm">{action.title}</div>
+                        <div className="text-xs text-gray-500 mt-1">{action.description}</div>
+                      </div>
+                    </Button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Active Goals & Upcoming Reminders */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Target className="w-5 h-5 text-blue-600" />
+                <CardTitle>{getText("Active Goals", "सक्रिय लक्ष्य")}</CardTitle>
+              </div>
+              <Button variant="outline" size="sm">
+                <Plus className="w-4 h-4 mr-1" />
+                {getText("Add Goal", "लक्ष्य जोड़ें")}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                {activeGoals.map((goal, index) => {
+                  const IconComponent = goal.icon;
+                  return (
+                    <div key={index} className="p-4 border rounded-lg">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <IconComponent className="w-5 h-5 text-blue-600" />
+                        <h4 className="font-medium">{goal.title}</h4>
+                      </div>
+                      <div className="mb-2">
+                        <div className="text-sm text-gray-600 mb-1">
+                          {goal.current} / {goal.target} {goal.title.includes('Steps') ? getText('steps', 'कदम') : goal.title.includes('Water') ? getText('glasses', 'गिलास') : goal.title.includes('Sleep') ? getText('hours', 'घंटे') : getText('minutes', 'मिनट')}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg font-semibold text-blue-600">{goal.percentage}%</span>
+                        </div>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full ${goal.color === 'blue' ? 'bg-blue-500' : goal.color === 'green' ? 'bg-green-500' : goal.color === 'purple' ? 'bg-purple-500' : 'bg-orange-500'}`}
+                          style={{ width: `${goal.percentage}%` }}
+                        ></div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="w-full mt-2 text-xs">
+                        <Plus className="w-3 h-3 mr-1" />
+                        {getText("Log Progress", "प्रगति लॉग करें")}
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Bell className="w-5 h-5 text-blue-600" />
+                  <CardTitle>{getText("Upcoming Reminders", "आगामी अनुस्मारक")}</CardTitle>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {upcomingReminders.map((reminder, index) => {
+                const IconComponent = reminder.icon;
+                return (
+                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                      <IconComponent className={`w-4 h-4 ${reminder.color}`} />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-900">{reminder.title}</h4>
+                      <p className="text-sm text-gray-500">{reminder.time}</p>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Star className="w-4 h-4 text-blue-600" />
+                  <span className="font-medium text-blue-900">{getText("Daily Motivation", "दैनिक प्रेरणा")}</span>
+                </div>
+                <p className="text-sm text-blue-700 italic">
+                  {getText('"The groundwork for all happiness is good health."', '"सभी खुशी की नींव अच्छा स्वास्थ्य है।"')}
+                </p>
+                <p className="text-xs text-blue-600 mt-1">- Leigh Hunt</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        {/* AI Health Tips */}
+        <Card className="mt-6">
+          <div className="flex items-center gap-2 px-6 pt-6">
+            <Sparkles className="w-6 h-6 text-blue-400" />
+            <span className="text-2xl font-semibold text-gray-900">AI Health Tips</span>
+          </div>
+          <div className="p-6 pt-4 grid md:grid-cols-3 gap-4">
+            {aiHealthTips.map((tip, i) => (
+              <div key={i} className="rounded-lg bg-blue-50/40 border border-blue-100 p-5 flex flex-col gap-2">
+                <div className="flex items-center gap-2 mb-1">
+                  {tip.icon}
+                  <span className="font-semibold text-blue-600 text-base">{tip.category}</span>
+                </div>
+                <div className="text-gray-700 text-sm">{tip.tip}</div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

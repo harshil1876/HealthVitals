@@ -147,42 +147,41 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-10">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 px-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight mb-1">
             {getText("Weekly Wellness Report", "साप्ताहिक कल्याण रिपोर्ट")}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-lg text-gray-500 font-medium">
             {getText("Your comprehensive wellness insights and analytics", "आपकी व्यापक कल्याण अंतर्दृष्टि और विश्लेषण")}
           </p>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap gap-2 items-center">
           <Tabs value={selectedPeriod} onValueChange={setSelectedPeriod} className="w-auto">
-            <TabsList className="bg-white border">
+            <TabsList className="bg-white border rounded-lg shadow-sm">
               <TabsTrigger value="week">{getText("This Week", "इस सप्ताह")}</TabsTrigger>
               <TabsTrigger value="month">{getText("This Month", "इस महीने")}</TabsTrigger>
               <TabsTrigger value="quarter">{getText("3 Months", "3 महीने")}</TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button variant="outline" onClick={handleShareReport} className="flex items-center space-x-2">
+          <Button variant="outline" onClick={handleShareReport} className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium shadow-sm transition">
             <Share2 className="w-4 h-4" />
             <span>{getText("Share", "साझा करें")}</span>
           </Button>
-          <Button onClick={handleDownloadReport} className="bg-blue-600 hover:bg-blue-700 flex items-center space-x-2">
+          <Button onClick={handleDownloadReport} className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2 rounded-lg text-white text-sm font-medium shadow-sm transition">
             <Download className="w-4 h-4" />
             <span>{getText("Download PDF", "PDF डाउनलोड करें")}</span>
           </Button>
         </div>
       </div>
-
       {/* Report Summary Card */}
-      <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl">
+      <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl mx-6 mb-10 hover:scale-[1.01] transition-transform">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-2xl mb-2">Weekly Wellness Report</CardTitle>
+              <CardTitle className="text-2xl mb-2 font-semibold">Weekly Wellness Report</CardTitle>
               <CardDescription className="text-blue-100">
                 {new Date().toLocaleDateString()} - Comprehensive wellness insights for {user?.name}
               </CardDescription>
@@ -193,17 +192,17 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-3xl font-bold mb-1">85%</div>
-              <div className="text-blue-100 text-sm">Overall Wellness</div>
+              <div className="text-4xl font-semibold mb-1">85%</div>
+              <div className="text-blue-100 text-base">Overall Wellness</div>
               <div className="flex items-center justify-center mt-1">
                 <TrendingUp className="w-3 h-3 mr-1" />
                 <span className="text-xs">+12% improvement</span>
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold mb-1">5/5</div>
+              <div className="text-3xl font-semibold mb-1">5/5</div>
               <div className="text-blue-100 text-sm">Goals Achieved</div>
               <div className="flex items-center justify-center mt-1">
                 <Award className="w-3 h-3 mr-1" />
@@ -211,7 +210,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold mb-1">7</div>
+              <div className="text-3xl font-semibold mb-1">7</div>
               <div className="text-blue-100 text-sm">Active Days</div>
               <div className="flex items-center justify-center mt-1">
                 <Calendar className="w-3 h-3 mr-1" />
@@ -219,7 +218,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold mb-1">15</div>
+              <div className="text-3xl font-semibold mb-1">15</div>
               <div className="text-blue-100 text-sm">Day Streak</div>
               <div className="flex items-center justify-center mt-1">
                 <Target className="w-3 h-3 mr-1" />
@@ -231,7 +230,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
       </Card>
 
       {/* What Did You Do This Week */}
-      <Card className="bg-white/90 backdrop-blur-sm shadow-lg">
+      <Card className="bg-white/90 backdrop-blur-sm shadow-lg mx-6 mb-10">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Activity className="w-6 h-6 text-green-600" />
@@ -289,7 +288,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
       </Card>
 
       {/* AI Insights & Recommendations */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-6 mx-6 mb-10">
         <Card className="bg-white/90 backdrop-blur-sm shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -375,7 +374,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
       </div>
 
       {/* Emotional Trends Analysis */}
-      <Card className="bg-white/90 backdrop-blur-sm shadow-lg">
+      <Card className="bg-white/90 backdrop-blur-sm shadow-lg mx-6 mb-10">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <TrendingUp className="w-6 h-6 text-green-600" />
@@ -409,11 +408,11 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4 text-center">
             <div className="p-3 bg-green-50 rounded-lg">
-              <div className="text-lg font-bold text-green-900">+12%</div>
+              <div className="text-lg font-semibold text-green-900">+12%</div>
               <div className="text-xs text-green-700">{getText("Positive Emotions", "सकारात्मक भावनाएं")}</div>
             </div>
             <div className="p-3 bg-blue-50 rounded-lg">
-              <div className="text-lg font-bold text-blue-900">-15%</div>
+              <div className="text-lg font-semibold text-blue-900">-15%</div>
               <div className="text-xs text-blue-700">{getText("Stress Levels", "तनाव का स्तर")}</div>
             </div>
           </div>
@@ -421,7 +420,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
       </Card>
 
       {/* Goal Alignment */}
-      <Card className="bg-white/90 backdrop-blur-sm shadow-lg">
+      <Card className="bg-white/90 backdrop-blur-sm shadow-lg mx-6 mb-10">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Target className="w-6 h-6 text-green-600" />
@@ -438,7 +437,7 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
                   <div className={`w-12 h-12 bg-${goal.color}-200 rounded-full flex items-center justify-center mx-auto mb-3`}>
                     <IconComponent className={`w-6 h-6 text-${goal.color}-600`} />
                   </div>
-                  <div className={`text-2xl font-bold text-${goal.color}-900 mb-1`}>{goal.percentage}%</div>
+                  <div className={`text-2xl font-semibold text-${goal.color}-900 mb-1`}>{goal.percentage}%</div>
                   <div className={`text-sm text-${goal.color}-700 mb-1`}>{goal.goal}</div>
                   <div className={`text-xs text-${goal.color}-600`}>{goal.status}</div>
                 </div>
@@ -449,8 +448,8 @@ const ReportsPage = ({ user, currentLanguage = "English", getText = (en, hi) => 
       </Card>
 
       {/* Weekly Summary (at the end) */}
-      <div className="mt-10 rounded-2xl overflow-hidden bg-gradient-to-r from-blue-50 via-white to-green-50 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-1">Weekly Summary</h2>
+      <div className="mt-10 rounded-2xl overflow-hidden bg-gradient-to-r from-blue-50 via-white to-green-50 p-8 mx-6">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-1">Weekly Summary</h2>
         <p className="text-gray-500 mb-6">Your wellness journey this week</p>
         <div className="grid md:grid-cols-2 gap-8">
           {/* Key Achievements */}

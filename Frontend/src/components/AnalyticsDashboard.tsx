@@ -133,7 +133,7 @@ const AnalyticsDashboard = ({ user }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Health Analytics Dashboard</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">Health Analytics Dashboard</h1>
           <p className="text-gray-600">Comprehensive view of your health data and insights</p>
         </div>
         <div className="flex space-x-2">
@@ -159,7 +159,7 @@ const AnalyticsDashboard = ({ user }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-700">Health Score</p>
-                <p className="text-3xl font-bold text-blue-900">86%</p>
+                <p className="text-3xl font-semibold text-blue-900">86%</p>
                 <p className="text-sm text-blue-600">+5% from last week</p>
               </div>
               <div className="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center">
@@ -174,7 +174,7 @@ const AnalyticsDashboard = ({ user }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-700">Conversations</p>
-                <p className="text-3xl font-bold text-green-900">47</p>
+                <p className="text-3xl font-semibold text-green-900">47</p>
                 <p className="text-sm text-green-600">+12 this month</p>
               </div>
               <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center">
@@ -189,7 +189,7 @@ const AnalyticsDashboard = ({ user }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-700">Improvement</p>
-                <p className="text-3xl font-bold text-purple-900">92%</p>
+                <p className="text-3xl font-semibold text-purple-900">92%</p>
                 <p className="text-sm text-purple-600">Goals on track</p>
               </div>
               <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center">
@@ -204,7 +204,7 @@ const AnalyticsDashboard = ({ user }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-700">Streak</p>
-                <p className="text-3xl font-bold text-orange-900">12</p>
+                <p className="text-3xl font-semibold text-orange-900">12</p>
                 <p className="text-sm text-orange-600">Days active</p>
               </div>
               <div className="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center">
@@ -243,7 +243,7 @@ const AnalyticsDashboard = ({ user }) => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-600">{metric.title}</p>
-                      <p className="text-2xl font-bold text-gray-900">
+                      <p className="text-2xl font-semibold text-gray-900">
                         {metric.value} <span className="text-sm font-normal text-gray-500">{metric.unit}</span>
                       </p>
                       <p className="text-xs text-gray-500">{metric.range}</p>
@@ -373,7 +373,7 @@ const AnalyticsDashboard = ({ user }) => {
           </CardHeader>
           <CardContent className="flex items-center justify-center">
             <div className="text-center">
-              <div className="text-6xl font-bold text-green-600 mb-2">8.4</div>
+              <div className="text-6xl font-semibold text-green-600 mb-2">8.4</div>
               <p className="text-lg text-gray-600 mb-1">Overall Health Score</p>
               <div className="flex items-center justify-center space-x-1 text-green-600">
                 <TrendingUp className="w-4 h-4" />
@@ -390,19 +390,19 @@ const AnalyticsDashboard = ({ user }) => {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold text-blue-600">127</p>
+                <p className="text-2xl font-semibold text-blue-600">127</p>
                 <p className="text-sm text-gray-600">Total Conversations</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-green-600">42h</p>
+                <p className="text-2xl font-semibold text-green-600">42h</p>
                 <p className="text-sm text-gray-600">Total Talk Time</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-purple-600">15</p>
+                <p className="text-2xl font-semibold text-purple-600">15</p>
                 <p className="text-sm text-gray-600">Health Topics</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-orange-600">98%</p>
+                <p className="text-2xl font-semibold text-orange-600">98%</p>
                 <p className="text-sm text-gray-600">Accuracy Rate</p>
               </div>
             </div>

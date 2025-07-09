@@ -132,66 +132,62 @@ const GoalsPage = ({ user }) => {
   const averageProgress = goals.length > 0 ? Math.round(goals.reduce((sum, goal) => sum + goal.progress, 0) / goals.length) : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 py-10">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 px-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Goals & Objectives</h1>
-          <p className="text-gray-600">Track and achieve your wellness objectives</p>
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight mb-1">Goals & Objectives</h1>
+          <p className="text-lg text-gray-500 font-medium">Track and achieve your wellness objectives</p>
         </div>
         <Button 
           onClick={() => setShowAddGoal(true)}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg rounded-lg px-6 py-3 text-base font-semibold flex items-center gap-2"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-5 h-5" />
           Add New Goal
         </Button>
       </div>
-
       {/* Goals Overview */}
-      <div className="grid md:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-lg">
+      <div className="grid md:grid-cols-4 gap-6 mb-10 px-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-lg hover:shadow-2xl hover:scale-[1.025] transition-transform">
           <CardContent className="p-6 text-center">
             <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="w-8 h-8 text-blue-600" />
             </div>
-            <p className="text-3xl font-bold text-blue-900 mb-2">{activeGoals.length}</p>
-            <p className="text-blue-700 font-medium">Active Goals</p>
+            <p className="text-3xl font-semibold text-blue-900 mb-2">{activeGoals.length}</p>
+            <p className="text-blue-700 font-semibold">Active Goals</p>
             <p className="text-xs text-blue-600 mt-1">Currently working on</p>
           </CardContent>
         </Card>
-
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-lg">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-lg hover:shadow-2xl hover:scale-[1.025] transition-transform">
           <CardContent className="p-6 text-center">
             <div className="w-16 h-16 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-4">
               <Award className="w-8 h-8 text-green-600" />
             </div>
-            <p className="text-3xl font-bold text-green-900 mb-2">{completedGoals.length}</p>
-            <p className="text-green-700 font-medium">Completed</p>
+            <p className="text-3xl font-semibold text-green-900 mb-2">{completedGoals.length}</p>
+            <p className="text-green-700 font-semibold">Completed</p>
             <p className="text-xs text-green-600 mt-1">Successfully achieved</p>
           </CardContent>
         </Card>
-
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 shadow-lg">
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 shadow-lg hover:shadow-2xl hover:scale-[1.025] transition-transform">
           <CardContent className="p-6 text-center">
             <div className="w-16 h-16 bg-purple-200 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="w-8 h-8 text-purple-600" />
             </div>
-            <p className="text-3xl font-bold text-purple-900 mb-2">{averageProgress}%</p>
-            <p className="text-purple-700 font-medium">Avg Progress</p>
+            <p className="text-3xl font-semibold text-purple-900 mb-2">{averageProgress}%</p>
+            <p className="text-purple-700 font-semibold">Avg Progress</p>
             <p className="text-xs text-purple-600 mt-1">Across all goals</p>
           </CardContent>
         </Card>
-
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 shadow-lg">
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 shadow-lg hover:shadow-2xl hover:scale-[1.025] transition-transform">
           <CardContent className="p-6 text-center">
             <div className="w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center mx-auto mb-4">
               <Calendar className="w-8 h-8 text-orange-600" />
             </div>
-            <p className="text-3xl font-bold text-orange-900 mb-2">
+            <p className="text-3xl font-semibold text-orange-900 mb-2">
               {Math.max(...goals.map(g => g.streak), 0)}
             </p>
-            <p className="text-orange-700 font-medium">Best Streak</p>
+            <p className="text-orange-700 font-semibold">Best Streak</p>
             <p className="text-xs text-orange-600 mt-1">Days in a row</p>
           </CardContent>
         </Card>
@@ -277,7 +273,7 @@ const GoalsPage = ({ user }) => {
                         <IconComponent className={`w-6 h-6 text-${goal.color}-600`} />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{goal.title}</h3>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-1">{goal.title}</h3>
                         <p className="text-gray-600">{goal.description}</p>
                         <div className="flex items-center space-x-4 mt-2">
                           <Badge variant="outline" className="text-xs">
@@ -318,7 +314,7 @@ const GoalsPage = ({ user }) => {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">Progress</span>
-                      <span className="text-sm font-bold text-gray-900">{goal.progress}%</span>
+                      <span className="text-sm font-semibold text-gray-900">{goal.progress}%</span>
                     </div>
                     <Progress 
                       value={goal.progress} 

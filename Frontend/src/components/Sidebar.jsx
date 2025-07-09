@@ -31,13 +31,12 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   ];
 
   return (
-    <div className={`bg-white shadow-lg transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} flex flex-col`}>
+    <div className={`bg-sidebar shadow-xl transition-all duration-300 rounded-tr-3xl rounded-br-3xl mt-4 ml-2 mb-4 flex flex-col border border-sidebar-border ${isCollapsed ? 'w-16' : 'w-64'} min-h-[calc(100vh-2rem)]`}> 
       {/* Sidebar Header */}
       {/* No toggle button here; toggle is in header */}
-
       {/* Navigation Items */}
-      <nav className="flex-1 p-2">
-        <ul className="space-y-1">
+      <nav className="flex-1 p-3">
+        <ul className="space-y-2">
           {navItems.map((item) => {
             const IconComponent = item.icon;
             const isActive = location.pathname === `/${item.id}`;
@@ -45,18 +44,16 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               <li key={item.id}>
                 <Link
                   to={`/${item.id}`}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                  className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-colors font-semibold text-base tracking-tight group shadow-sm border border-transparent ${
                     isActive 
-                      ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-blue-50 text-blue-700 border-blue-500 shadow-md' 
+                      : 'text-gray-700 hover:bg-blue-100 hover:text-blue-700'
                   }`}
                   title={isCollapsed ? item.label : ''}
                 >
-                  <IconComponent className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'text-gray-500'}`} />
+                  <IconComponent className={`w-6 h-6 transition-colors ${isActive ? 'text-blue-700' : 'text-gray-400 group-hover:text-blue-700'}`} />
                   {!isCollapsed && (
-                    <span className={`font-medium ${isActive ? 'text-blue-600' : 'text-gray-700'}`}>
-                      {item.label}
-                    </span>
+                    <span className={`transition-opacity duration-200 ${isActive ? 'text-blue-700' : 'text-gray-700 group-hover:text-blue-700'}`}>{item.label}</span>
                   )}
                 </Link>
               </li>

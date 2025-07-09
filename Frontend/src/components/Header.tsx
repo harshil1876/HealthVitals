@@ -28,71 +28,71 @@ const Header = ({ user, onLogout, onMenuClick }) => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
+    <header className="bg-white/80 backdrop-blur-md border-b border-blue-100 sticky top-0 z-50 shadow-md rounded-b-2xl">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-4">
           <button
             onClick={onMenuClick}
-            className="mr-2 p-2 rounded hover:bg-gray-100 hidden md:inline-flex"
+            className="mr-2 p-2 rounded-lg hover:bg-blue-50 transition hidden md:inline-flex"
             title="Toggle Sidebar"
           >
             <Menu className="w-6 h-6 text-blue-600" />
           </button>
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-            <Heart className="w-6 h-6 text-white" />
+          <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-500 rounded-xl flex items-center justify-center shadow-md">
+            <Heart className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent tracking-tight">
               HealthVitals-AI
             </h1>
-            <p className="text-sm text-gray-600">Welcome back, {user?.name}</p>
+            <p className="text-sm text-gray-500 font-medium">Welcome back, {user?.name}</p>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-3">
           <button
             onClick={toggleVoice}
-            className={`${isVoiceEnabled ? 'bg-green-50 border-green-200' : 'border-gray-200'} border rounded p-2`}
+            className={`${isVoiceEnabled ? 'bg-green-50 border-green-200' : 'border-gray-200'} border rounded-lg p-2 transition hover:bg-green-50`}
             title={isVoiceEnabled ? "Disable Voice" : "Enable Voice"}
           >
-            {isVoiceEnabled ? <Mic className="w-4 h-4 text-green-600" /> : <MicOff className="w-4 h-4" />}
+            {isVoiceEnabled ? <Mic className="w-5 h-5 text-green-600" /> : <MicOff className="w-5 h-5" />}
           </button>
           <button
             onClick={handleLanguageToggle}
-            className="border border-gray-200 rounded p-2 flex items-center"
+            className="border border-gray-200 rounded-lg p-2 flex items-center transition hover:bg-blue-50"
             title="Change Language"
           >
-            <Globe className="w-4 h-4 mr-1" />
-            <span>{currentLanguage === "English" ? "EN" : "हि"}</span>
+            <Globe className="w-5 h-5 mr-1" />
+            <span className="font-semibold text-xs">{currentLanguage === "English" ? "EN" : "हि"}</span>
           </button>
           <button
             onClick={handleNotificationClick}
-            className="border border-gray-200 rounded p-2 relative"
+            className="border border-gray-200 rounded-lg p-2 relative transition hover:bg-blue-50"
             title="Notifications"
           >
-            <Bell className="w-4 h-4" />
+            <Bell className="w-5 h-5" />
             {notificationCount > 0 && (
-              <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 bg-red-500 text-white text-xs">{notificationCount}</Badge>
+              <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 bg-red-500 text-white text-xs shadow">{notificationCount}</Badge>
             )}
           </button>
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-2 border border-gray-200 rounded p-2"
+              className="flex items-center gap-2 border border-gray-200 rounded-lg p-2 transition hover:bg-blue-50"
               title="User Menu"
             >
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-700 text-sm font-bold">{getInitials(user?.name || "U")}</span>
+              <div className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center shadow">
+                <span className="text-blue-700 text-base font-bold">{getInitials(user?.name || "U")}</span>
               </div>
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-5 h-5" />
             </button>
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+              <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border z-50">
                 <div className="p-4 border-b">
                   <div className="font-semibold">{user?.name || "User"}</div>
                   <div className="text-sm text-gray-500">{user?.email || "user@healthvitals.com"}</div>
                 </div>
-                <button className="w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => {navigate("/settings"); setShowProfileMenu(false);}}>Settings</button>
-                <button className="w-full text-left px-4 py-2 hover:bg-gray-100" onClick={onLogout}>Logout</button>
+                <button className="w-full text-left px-4 py-2 hover:bg-blue-50" onClick={() => {navigate("/settings"); setShowProfileMenu(false);}}>Settings</button>
+                <button className="w-full text-left px-4 py-2 hover:bg-blue-50" onClick={onLogout}>Logout</button>
               </div>
             )}
           </div>

@@ -190,7 +190,7 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
       {/* Page Heading and Actions */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-2 border-b">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">Analytics Dashboard</h1>
           <p className="text-gray-600 text-base">Comprehensive view of your wellness journey and insights</p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
@@ -249,22 +249,22 @@ const AnalyticsPage = ({ user, currentLanguage = "English", getText = (en, hi) =
           </div>
           <div className="grid md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-              <div className="text-2xl font-bold text-green-900">88%</div>
+              <div className="text-2xl font-semibold text-green-900">88%</div>
               <div className="text-sm text-green-700">{getText("Physical Health", "शारीरिक स्वास्थ्य")}</div>
               <div className="text-xs text-green-600">↗ +12% {getText("vs last month", "बनाम पिछला महीना")}</div>
             </div>
             <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
-              <div className="text-2xl font-bold text-blue-900">92%</div>
+              <div className="text-2xl font-semibold text-blue-900">92%</div>
               <div className="text-sm text-blue-700">{getText("Mental Health", "मानसिक स्वास्थ्य")}</div>
               <div className="text-xs text-blue-600">↗ +8% {getText("vs last month", "बनाम पिछला महीना")}</div>
             </div>
             <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-              <div className="text-2xl font-bold text-purple-900">85%</div>
+              <div className="text-2xl font-semibold text-purple-900">85%</div>
               <div className="text-sm text-purple-700">{getText("Emotional Health", "भावनात्मक स्वास्थ्य")}</div>
               <div className="text-xs text-purple-600">↗ +15% {getText("vs last month", "बनाम पिछला महीना")}</div>
             </div>
             <div className="text-center p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg">
-              <div className="text-2xl font-bold text-orange-900">82%</div>
+              <div className="text-2xl font-semibold text-orange-900">82%</div>
               <div className="text-sm text-orange-700">{getText("Social Health", "सामाजिक स्वास्थ्य")}</div>
               <div className="text-xs text-orange-600">↗ +10% {getText("vs last month", "बनाम पिछला महीना")}</div>
             </div>

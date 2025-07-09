@@ -131,41 +131,40 @@ const NotificationsPage = ({ onBack }) => {
   const highPriorityCount = notifications.filter(notif => notif.priority === 'high' && !notif.read).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 py-10">
       {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-40 shadow-sm">
-        <div className="px-6 py-4">
+      <div className="bg-white/90 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-40 shadow-md rounded-b-2xl mb-8">
+        <div className="px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" onClick={onBack} className="flex items-center space-x-2">
-                <ArrowLeft className="w-4 h-4" />
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="sm" onClick={onBack} className="flex items-center gap-2 text-base font-semibold">
+                <ArrowLeft className="w-5 h-5" />
                 <span>Back to Overview</span>
               </Button>
-              <div className="flex items-center space-x-3">
-                <Bell className="w-6 h-6 text-blue-600" />
+              <div className="flex items-center gap-3">
+                <Bell className="w-7 h-7 text-blue-600" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
-                  <p className="text-sm text-gray-600">Stay updated with your health insights</p>
+                  <h1 className="text-3xl font-semibold text-gray-900">Notifications</h1>
+                  <p className="text-base text-gray-500 font-medium">Stay updated with your health insights</p>
                 </div>
                 {unreadCount > 0 && (
-                  <Badge className="bg-blue-600 text-white">{unreadCount} new</Badge>
+                  <Badge className="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">{unreadCount} new</Badge>
                 )}
                 {highPriorityCount > 0 && (
-                  <Badge className="bg-red-500 text-white">{highPriorityCount} urgent</Badge>
+                  <Badge className="bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">{highPriorityCount} urgent</Badge>
                 )}
               </div>
             </div>
-            
             {/* Action Buttons */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               {unreadCount > 0 && (
                 <Button 
                   variant="outline" 
                   size="sm" 
                   onClick={markAllAsRead}
-                  className="flex items-center space-x-2"
+                  className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium shadow-sm transition"
                 >
-                  <Check className="w-4 h-4" />
+                  <Check className="w-5 h-5" />
                   <span>Mark all as read</span>
                 </Button>
               )}
@@ -174,148 +173,83 @@ const NotificationsPage = ({ onBack }) => {
                   variant="outline" 
                   size="sm" 
                   onClick={clearAllNotifications}
-                  className="flex items-center space-x-2"
+                  className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium shadow-sm transition"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-5 h-5" />
                   <span>Clear all</span>
                 </Button>
               )}
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4" />
+              <Button variant="outline" size="sm" className="rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium shadow-sm transition">
+                <Settings className="w-5 h-5" />
               </Button>
             </div>
           </div>
         </div>
       </div>
-
       <div className="max-w-4xl mx-auto p-6">
         {/* Filter Tabs */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-2">
-            <Filter className="w-4 h-4 text-gray-500" />
-            <div className="flex space-x-2">
+        <div className="mb-8">
+          <div className="flex items-center gap-2">
+            <Filter className="w-5 h-5 text-gray-500" />
+            <div className="flex gap-2">
               <Button 
                 variant={filter === 'all' ? 'default' : 'outline'} 
                 size="sm"
                 onClick={() => setFilter('all')}
-              >
-                All ({notifications.length})
-              </Button>
+                className="rounded-lg px-4 py-2 text-base font-semibold"
+              >All</Button>
               <Button 
                 variant={filter === 'unread' ? 'default' : 'outline'} 
                 size="sm"
                 onClick={() => setFilter('unread')}
-              >
-                Unread ({unreadCount})
-              </Button>
+                className="rounded-lg px-4 py-2 text-base font-semibold"
+              >Unread</Button>
               <Button 
                 variant={filter === 'high' ? 'default' : 'outline'} 
                 size="sm"
                 onClick={() => setFilter('high')}
-              >
-                High Priority ({notifications.filter(n => n.priority === 'high').length})
-              </Button>
+                className="rounded-lg px-4 py-2 text-base font-semibold"
+              >Urgent</Button>
             </div>
           </div>
         </div>
-
-        {/* Notifications List */}
-        {filteredNotifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-500">
-            <Bell className="w-16 h-16 mb-4 text-gray-300" />
-            <h3 className="text-lg font-medium mb-2">
-              {filter === 'all' ? 'No notifications' : 
-               filter === 'unread' ? 'No unread notifications' : 
-               'No high priority notifications'}
-            </h3>
-            <p className="text-sm text-center">
-              {filter === 'all' ? "You're all caught up! Check back later for updates." :
-               filter === 'unread' ? "All notifications have been read." :
-               "No urgent notifications at the moment."}
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredNotifications.map((notification) => {
-              const IconComponent = notification.icon;
-              
+        {/* Notification Cards */}
+        <div className="space-y-6">
+          {filteredNotifications.length === 0 ? (
+            <div className="text-center text-gray-400 text-lg py-12">No notifications found.</div>
+          ) : (
+            filteredNotifications.map((notif) => {
+              const IconComponent = notif.icon;
               return (
-                <Card 
-                  key={notification.id} 
-                  className={`cursor-pointer transition-all hover:shadow-md ${
-                    !notification.read ? 'bg-blue-50 border-blue-200' : 'bg-white'
-                  } ${notification.priority === 'high' ? 'border-l-4 border-l-red-500' : ''}`}
-                  onClick={() => markAsRead(notification.id)}
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className={`w-12 h-12 bg-${notification.color}-100 rounded-full flex items-center justify-center flex-shrink-0`}>
-                        <IconComponent className={`w-6 h-6 text-${notification.color}-600`} />
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className={`font-semibold text-lg ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
-                            {notification.title}
-                          </h3>
-                          <div className="flex items-center space-x-2">
-                            {!notification.read && (
-                              <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                            )}
-                            <Badge 
-                              variant={notification.priority === 'high' ? 'destructive' : 
-                                      notification.priority === 'medium' ? 'secondary' : 'outline'}
-                              className="text-xs"
-                            >
-                              {notification.priority}
-                            </Badge>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deleteNotification(notification.id);
-                              }}
-                              className="text-gray-400 hover:text-gray-600 p-1"
-                            >
-                              <X className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </div>
-                        
-                        <p className={`text-base mb-3 ${!notification.read ? 'text-gray-800' : 'text-gray-600'}`}>
-                          {notification.message}
-                        </p>
-                        
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-500">{notification.time}</span>
-                          <Badge 
-                            variant="outline" 
-                            className={`text-xs capitalize text-${notification.color}-600 border-${notification.color}-200`}
-                          >
-                            {notification.type}
-                          </Badge>
-                        </div>
-                      </div>
+                <Card key={notif.id} className={`flex items-center gap-4 p-6 shadow-lg rounded-2xl border-l-8 ${notif.read ? 'border-gray-200 bg-white/80' : 'border-blue-400 bg-blue-50/80'} hover:shadow-2xl hover:scale-[1.01] transition-transform duration-200`}> 
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 shadow`}>
+                    <IconComponent className={`w-7 h-7 text-${notif.color}-600`} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{notif.title}</h3>
+                      {notif.priority === 'high' && <Badge className="bg-red-500 text-white text-xs font-semibold px-2 py-0.5 rounded">Urgent</Badge>}
                     </div>
-                  </CardContent>
+                    <p className="text-gray-700 text-base mb-1">{notif.message}</p>
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                      <span>{notif.time}</span>
+                      {!notif.read && <span className="text-blue-600 font-semibold">• Unread</span>}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {!notif.read && (
+                      <Button size="icon" variant="ghost" onClick={() => markAsRead(notif.id)} title="Mark as read">
+                        <Check className="w-5 h-5 text-green-600" />
+                      </Button>
+                    )}
+                    <Button size="icon" variant="ghost" onClick={() => deleteNotification(notif.id)} title="Delete">
+                      <X className="w-5 h-5 text-red-500" />
+                    </Button>
+                  </div>
                 </Card>
               );
-            })}
-          </div>
-        )}
-
-        {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600">
-              {notifications.length} total notifications
-            </p>
-            <Button variant="outline" className="flex items-center space-x-2">
-              <Settings className="w-4 h-4" />
-              <span>Notification Settings</span>
-            </Button>
-          </div>
+            })
+          )}
         </div>
       </div>
     </div>

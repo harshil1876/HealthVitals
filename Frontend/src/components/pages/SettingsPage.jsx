@@ -206,315 +206,168 @@ const SettingsPage = ({ user }) => {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-600">Manage your account and application preferences</p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 py-10">
+      <div className="container mx-auto px-6 py-10 space-y-10">
+        {/* Header */}
+        <div className="mb-2">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight mb-1">Settings</h1>
+          <p className="text-lg text-gray-500 font-medium">Manage your profile, preferences, and privacy</p>
         </div>
-        <Badge variant="outline" className="flex items-center space-x-2">
-          <Shield className="w-4 h-4" />
-          <span>Secure</span>
-        </Badge>
-      </div>
-
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 bg-white/70 backdrop-blur-sm border border-blue-100 rounded-xl shadow-sm">
-          <TabsTrigger value="profile" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <User className="w-4 h-4 mr-2" />
-            Profile
-          </TabsTrigger>
-          <TabsTrigger value="notifications" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <Bell className="w-4 h-4 mr-2" />
-            Notifications
-          </TabsTrigger>
-          <TabsTrigger value="privacy" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <Shield className="w-4 h-4 mr-2" />
-            Privacy
-          </TabsTrigger>
-          <TabsTrigger value="app" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <Palette className="w-4 h-4 mr-2" />
-            App Settings
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Profile Settings */}
-        <TabsContent value="profile" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <User className="w-5 h-5" />
-                <span>Personal Information</span>
-              </CardTitle>
-              <CardDescription>Update your personal details and preferences</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    value={profileData.name}
-                    onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={profileData.email}
-                    onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    value={profileData.phone}
-                    onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="age">Age</Label>
-                  <Input
-                    id="age"
-                    value={profileData.age}
-                    onChange={(e) => setProfileData({...profileData, age: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="height">Height</Label>
-                  <Input
-                    id="height"
-                    value={profileData.height}
-                    onChange={(e) => setProfileData({...profileData, height: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="weight">Weight</Label>
-                  <Input
-                    id="weight"
-                    value={profileData.weight}
-                    onChange={(e) => setProfileData({...profileData, weight: e.target.value})}
-                  />
-                </div>
-              </div>
-              <Button onClick={handleSaveProfile} className="w-full md:w-auto">
-                <Check className="w-4 h-4 mr-2" />
-                Save Changes
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Security Settings</CardTitle>
-              <CardDescription>Manage your account security</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        {/* Settings Tabs and Cards */}
+        <Card className="hover:shadow-2xl transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">Profile Settings</CardTitle>
+            <CardDescription>Update your personal information</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="current-password">Current Password</Label>
-                <div className="relative">
-                  <Input
-                    id="current-password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter current password"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="new-password">New Password</Label>
+                <Label htmlFor="name">Full Name</Label>
                 <Input
-                  id="new-password"
-                  type="password"
-                  placeholder="Enter new password"
+                  id="name"
+                  value={profileData.name}
+                  onChange={(e) => setProfileData({...profileData, name: e.target.value})}
                 />
               </div>
-              <Button variant="outline">
-                <Lock className="w-4 h-4 mr-2" />
-                Update Password
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Notification Settings */}
-        <TabsContent value="notifications" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Bell className="w-5 h-5" />
-                <span>Notification Preferences</span>
-              </CardTitle>
-              <CardDescription>Choose how you want to be notified</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {notificationTypes.map((notification) => {
-                const IconComponent = notification.icon;
-                return (
-                  <div key={notification.key} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <IconComponent className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">{notification.title}</h4>
-                        <p className="text-sm text-gray-500">{notification.description}</p>
-                      </div>
-                    </div>
-                    <Switch
-                      checked={notifications[notification.key]}
-                      onCheckedChange={(checked) => 
-                        setNotifications({...notifications, [notification.key]: checked})
-                      }
-                    />
-                  </div>
-                );
-              })}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Privacy Settings */}
-        <TabsContent value="privacy" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Shield className="w-5 h-5" />
-                <span>Privacy & Data</span>
-              </CardTitle>
-              <CardDescription>Control how your data is used and shared</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {privacyOptions.map((option) => {
-                const IconComponent = option.icon;
-                return (
-                  <div key={option.key} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <IconComponent className="w-5 h-5 text-green-600" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">{option.title}</h4>
-                        <p className="text-sm text-gray-500">{option.description}</p>
-                      </div>
-                    </div>
-                    <Switch
-                      checked={privacy[option.key]}
-                      onCheckedChange={(checked) => 
-                        setPrivacy({...privacy, [option.key]: checked})
-                      }
-                    />
-                  </div>
-                );
-              })}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Data Management</CardTitle>
-              <CardDescription>Manage your personal data</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <h4 className="font-medium text-gray-900">Export Data</h4>
-                  <p className="text-sm text-gray-500">Download a copy of all your data</p>
-                </div>
-                <Button variant="outline" onClick={handleExportData}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Export
-                </Button>
+              <div>
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={profileData.email}
+                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                />
               </div>
-              <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">
-                <div>
-                  <h4 className="font-medium text-red-900">Delete Account</h4>
-                  <p className="text-sm text-red-600">Permanently delete your account and all data</p>
-                </div>
-                <Button variant="destructive" onClick={handleDeleteAccount}>
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </Button>
+              <div>
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  value={profileData.phone}
+                  onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
+                />
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* App Settings */}
-        <TabsContent value="app" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Palette className="w-5 h-5" />
-                <span>App Preferences</span>
-              </CardTitle>
-              <CardDescription>Customize your app experience</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {appPreferences.map((preference) => {
-                const IconComponent = preference.icon;
-                return (
-                  <div key={preference.key} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <IconComponent className="w-5 h-5 text-purple-600" />
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">{preference.title}</h4>
-                        <p className="text-sm text-gray-500">{preference.description}</p>
-                      </div>
+              <div>
+                <Label htmlFor="age">Age</Label>
+                <Input
+                  id="age"
+                  value={profileData.age}
+                  onChange={(e) => setProfileData({...profileData, age: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="height">Height</Label>
+                <Input
+                  id="height"
+                  value={profileData.height}
+                  onChange={(e) => setProfileData({...profileData, height: e.target.value})}
+                />
+              </div>
+              <div>
+                <Label htmlFor="weight">Weight</Label>
+                <Input
+                  id="weight"
+                  value={profileData.weight}
+                  onChange={(e) => setProfileData({...profileData, weight: e.target.value})}
+                />
+              </div>
+            </div>
+            <Button onClick={handleSaveProfile} className="w-full md:w-auto">
+              <Check className="w-4 h-4 mr-2" />
+              Save Changes
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="hover:shadow-2xl transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">Notification Preferences</CardTitle>
+            <CardDescription>Choose how you want to be notified</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {notificationTypes.map((notification) => {
+              const IconComponent = notification.icon;
+              return (
+                <div key={notification.key} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 text-blue-600" />
                     </div>
-                    <Switch
-                      checked={appSettings[preference.key]}
-                      onCheckedChange={(checked) => 
-                        setAppSettings({...appSettings, [preference.key]: checked})
-                      }
-                    />
+                    <div>
+                      <h4 className="font-medium text-gray-900">{notification.title}</h4>
+                      <p className="text-sm text-gray-500">{notification.description}</p>
+                    </div>
                   </div>
-                );
-              })}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>App Information</CardTitle>
-              <CardDescription>Version and support information</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-1">App Version</h4>
-                  <p className="text-sm text-gray-600">v2.1.4 (Latest)</p>
+                  <Switch
+                    checked={notifications[notification.key]}
+                    onCheckedChange={(checked) => 
+                      setNotifications({...notifications, [notification.key]: checked})
+                    }
+                  />
                 </div>
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-1">Last Updated</h4>
-                  <p className="text-sm text-gray-600">December 15, 2024</p>
+              );
+            })}
+          </CardContent>
+        </Card>
+        <Card className="hover:shadow-2xl transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">Privacy & Security</CardTitle>
+            <CardDescription>Control your data and privacy settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {privacyOptions.map((option) => {
+              const IconComponent = option.icon;
+              return (
+                <div key={option.key} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">{option.title}</h4>
+                      <p className="text-sm text-gray-500">{option.description}</p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={privacy[option.key]}
+                    onCheckedChange={(checked) => 
+                      setPrivacy({...privacy, [option.key]: checked})
+                    }
+                  />
                 </div>
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-1">Storage Used</h4>
-                  <p className="text-sm text-gray-600">2.4 GB of 5 GB</p>
+              );
+            })}
+          </CardContent>
+        </Card>
+        <Card className="hover:shadow-2xl transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold">App Preferences</CardTitle>
+            <CardDescription>Customize your app experience</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {appPreferences.map((preference) => {
+              const IconComponent = preference.icon;
+              return (
+                <div key={preference.key} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">{preference.title}</h4>
+                      <p className="text-sm text-gray-500">{preference.description}</p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={appSettings[preference.key]}
+                    onCheckedChange={(checked) => 
+                      setAppSettings({...appSettings, [preference.key]: checked})
+                    }
+                  />
                 </div>
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-1">Support</h4>
-                  <p className="text-sm text-gray-600">24/7 Available</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              );
+            })}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
