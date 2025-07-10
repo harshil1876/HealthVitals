@@ -20,7 +20,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const navItems = [
     { id: "overview", label: "Overview", icon: Home },
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "symptom", label: "HealthVitals", icon: Activity },
+    { id: "symptom", label: "Symptoscan-Pro", icon: Activity },
     { id: "lifestyle", label: "Lifestyle", icon: Heart },
     { id: "persona", label: "PersonaAI", icon: Brain },
     { id: "history", label: "History", icon: FileText },

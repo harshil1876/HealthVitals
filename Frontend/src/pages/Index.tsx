@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import LandingPage from "@/components/LandingPage";
-import Dashboard from "@/components/Dashboard";
-import Login from "@/components/auth/Login";
-import Register from "@/components/auth/Register";
-import ProfileSetup from "@/components/auth/ProfileSetup";
+import Dashboard from "../components/pages/Overview/components/Dashboard";
+import LandingPage from "../components/pages/Landing/components/LandingPage";
+import Login from "../components/pages/Settings/components/Login";
+import Register from "../components/pages/Settings/components/Register";
+import ProfileSetup from "../components/pages/Settings/components/ProfileSetup";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState("landing");

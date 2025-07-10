@@ -272,7 +272,7 @@ const OverviewPage = ({ user, setActiveTab, currentLanguage = "English", getText
                   <Activity className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">HealthVitals-AI</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">Symptoscan-Pro</h3>
                   <p className="text-gray-600">{getText("Symptom Analysis", "लक्षण विश्लेषण")}</p>
                 </div>
               </div>

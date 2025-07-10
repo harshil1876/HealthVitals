@@ -48,7 +48,7 @@ def reports():
 
 @main_bp.route("/api/settings", methods=["GET"])
 def settings():
-    return jsonify({"page": "settings", "message": "Settings page data."})
+    return jsonify({"page": "settings", "message": "Settings page data."}) 
 
 @main_bp.route("/api/history", methods=["GET"])
 def history():
