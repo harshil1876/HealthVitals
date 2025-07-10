@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../components/pages/Overview/components/Dashboard";
+import Dashboard from "../components/dashboards/Dashboard";
 import LandingPage from "../components/pages/Landing/components/LandingPage";
-import Login from "../components/pages/Settings/components/Login";
-import Register from "../components/pages/Settings/components/Register";
-import ProfileSetup from "../components/pages/Settings/components/ProfileSetup";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
+import ProfileSetup from "../components/auth/ProfileSetup";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState("landing");
@@ -66,7 +66,7 @@ const Index = () => {
   }
 
   if (currentView === "dashboard") {
-    return <Dashboard user={user} onLogout={handleLogout} />;
+    return <Dashboard />;
   }
 
   return null;
