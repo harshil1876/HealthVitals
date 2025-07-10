@@ -480,7 +480,7 @@ const OverviewPage = ({ user, setActiveTab, currentLanguage = "English", getText
               <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
                   <Star className="w-4 h-4 text-blue-600" />
-                  <span className="font-medium text-blue-900">{getText("Daily Motivation", "दैनिक प्रेरणा")}</span>
+                  <span className="font-semibold text-blue-900">{getText("Daily Motivation", "दैनिक प्रेरणा")}</span>
                 </div>
                 <p className="text-sm text-blue-700 italic">
                   {getText('"The groundwork for all happiness is good health."', '"सभी खुशी की नींव अच्छा स्वास्थ्य है।"')}

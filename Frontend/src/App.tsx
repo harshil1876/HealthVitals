@@ -17,6 +17,7 @@ import Sidebar from "./components/Sidebar";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import NotificationsPage from "./components/pages/NotificationsPage";
+import History from "./components/pages/History";
 
 const queryClient = new QueryClient();
 
@@ -123,6 +124,14 @@ const App = () => (
             element={
               <Layout user={user} onLogout={onLogout}>
                 <NotificationsPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <Layout user={user} onLogout={onLogout}>
+                <History />
               </Layout>
             }
           />

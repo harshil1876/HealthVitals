@@ -1,4 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+import json
+import os
+from datetime import datetime
 
 main_bp = Blueprint('main', __name__)
 
@@ -45,4 +48,62 @@ def reports():
 
 @main_bp.route("/api/settings", methods=["GET"])
 def settings():
-    return jsonify({"page": "settings", "message": "Settings page data."}) 
+    return jsonify({"page": "settings", "message": "Settings page data."})
+
+@main_bp.route("/api/history", methods=["GET"])
+def history():
+    # Get filter params
+    categories = request.args.getlist("categories")  # e.g. ["vital_signs", "medication"]
+    date_from = request.args.get("dateFrom")  # e.g. "2024-01-01"
+    date_to = request.args.get("dateTo")      # e.g. "2024-01-31"
+    durations = request.args.getlist("durations")  # ["short", "medium", "long"]
+    has_health_data = request.args.get("hasHealthData") == "true"
+
+    # Load conversations
+    json_path = os.path.join(os.path.dirname(__file__), '../../healthvitals_ai/Backend/conversations.json')
+    with open(json_path, 'r', encoding='utf-8') as f:
+        conversations = json.load(f)
+
+    def duration_category(seconds):
+        if seconds < 5 * 60:
+            return "short"
+        elif seconds <= 15 * 60:
+            return "medium"
+        else:
+            return "long"
+
+    def has_health_data_fn(conv):
+        # Example: check if summary or transcript mentions health data keywords
+        keywords = ["blood pressure", "heart rate", "medication", "symptom", "mental health"]
+        text = (conv.get("summary") or "") + " ".join([m.get("content", "") for m in conv.get("transcript", [])])
+        return any(k in text.lower() for k in keywords)
+
+    # Filtering
+    filtered = []
+    for conv in conversations:
+        # Categories (if present in summary or transcript)
+        if categories:
+            found = False
+            for cat in categories:
+                if cat.replace('_', ' ') in (conv.get("summary") or "").lower():
+                    found = True
+            if not found:
+                continue
+        # Date range
+        if date_from:
+            if conv.get("timestamp") and conv["timestamp"][:10] < date_from:
+                continue
+        if date_to:
+            if conv.get("timestamp") and conv["timestamp"][:10] > date_to:
+                continue
+        # Duration
+        if durations:
+            cat = duration_category(conv.get("duration", 0))
+            if cat not in durations:
+                continue
+        # Has health data
+        if has_health_data and not has_health_data_fn(conv):
+            continue
+        filtered.append(conv)
+
+    return jsonify(filtered) 

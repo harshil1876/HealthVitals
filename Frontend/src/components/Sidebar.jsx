@@ -23,6 +23,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
     { id: "symptom", label: "HealthVitals", icon: Activity },
     { id: "lifestyle", label: "Lifestyle", icon: Heart },
     { id: "persona", label: "PersonaAI", icon: Brain },
+    { id: "history", label: "History", icon: FileText },
     { id: "insights", label: "Insights", icon: TrendingUp },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "goals", label: "Goals", icon: Target },

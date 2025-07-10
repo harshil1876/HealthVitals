@@ -355,7 +355,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between px-6 pt-6">
             <div className="flex items-center gap-2">
               <Brain className="w-6 h-6 text-purple-600" />
-              <span className="text-2xl font-bold text-gray-900">Health Insights</span>
+              <span className="text-2xl font-semibold text-gray-900">Health Insights</span>
             </div>
             <button className="flex items-center gap-1 px-3 py-1 border rounded bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium">
               <RefreshCw className="w-4 h-4 mr-1" /> Refresh
@@ -369,7 +369,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-3">
                     <div>{insight.icon}</div>
                 <div>
-                      <div className="font-bold text-lg text-gray-900">{insight.title}</div>
+                      <div className="font-semibold text-lg text-gray-900">{insight.title}</div>
                       <div className="text-gray-700 text-base mt-1">{insight.text}</div>
                     </div>
                   </div>
@@ -392,7 +392,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between px-6 pt-6">
             <div className="flex items-center gap-2">
               <MessageCircle className="w-6 h-6 text-blue-500" />
-              <span className="text-2xl font-bold text-gray-900">Recent Conversations</span>
+              <span className="text-2xl font-semibold text-gray-900">Recent Conversations</span>
                     </div>
             <button className="flex items-center gap-1 px-3 py-1 border rounded bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium">
               <MoreHorizontal className="w-4 h-4 mr-1" /> View All
