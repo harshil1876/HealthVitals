@@ -18,11 +18,27 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import NotificationsPage from "./components/pages/Notifications";
 import History from "./components/pages/History";
+import Symptoscan from "./components/pages/Symptoscan";
+import LandingPage from "./components/pages/Landing/components/LandingPage";
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
+import AuthPage from "./components/auth/AuthPage";
+import SymptomScanProCard from "./components/pages/Symptoscan/SymptomScanProCard";
 
 const queryClient = new QueryClient();
 
 const user = { name: "Harshil" };
 const onLogout = () => { alert("Logged out"); };
+
+function RequireAuth({ children }) {
+  return (
+    <>
+      <SignedIn>{children}</SignedIn>
+      <SignedOut>
+        <Navigate to="/" replace />
+      </SignedOut>
+    </>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -31,108 +47,147 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout user={user} onLogout={onLogout}>
-                <Navigate to="/overview" />
-              </Layout>
-            }
-          />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<AuthPage mode="sign-in" />} />
+          <Route path="/register" element={<AuthPage mode="sign-up" />} />
           <Route
             path="/overview"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <OverviewPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/dashboard"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <Dashboard />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/symptom"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <SymptomAnalyzer />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/lifestyle"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <LifestyleAssistant />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/persona"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <PersonaAI />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/insights"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <InsightsPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/analytics"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <AnalyticsPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/goals"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <GoalsPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/reports"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <ReportsPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/settings"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <ProfileSettings />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/notifications"
             element={
+              <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <NotificationsPage />
               </Layout>
+              </RequireAuth>
             }
           />
           <Route
             path="/history"
             element={
-              <Layout user={user} onLogout={onLogout}>
-                <History />
-              </Layout>
+              <RequireAuth>
+                <Layout user={user} onLogout={onLogout}>
+                  <History />
+                </Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/symptoscan"
+            element={
+              <RequireAuth>
+                <Layout user={user} onLogout={onLogout}>
+                  <Symptoscan />
+                </Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/symptoscan/analyze"
+            element={
+              <RequireAuth>
+                <Layout user={user} onLogout={onLogout}>
+                  <SymptomScanProCard />
+                </Layout>
+              </RequireAuth>
             }
           />
           <Route path="*" element={<NotFound />} />

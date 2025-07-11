@@ -2,8 +2,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, Heart, MessageCircle, Shield, Globe, Mic } from "lucide-react";
+import { SignInButton, SignUpButton, useAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const LandingPage = ({ onLogin, onRegister }) => {
+const LandingPage = () => {
+  const { isSignedIn } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate("/overview", { replace: true });
+    }
+  }, [isSignedIn, navigate]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
@@ -18,10 +30,17 @@ const LandingPage = ({ onLogin, onRegister }) => {
             </h1>
           </div>
           <div className="flex space-x-3">
-            <Button variant="outline" onClick={onLogin} className="border-blue-200 hover:bg-blue-50">
+            <Button
+              variant="outline"
+              className="border-blue-200 hover:bg-blue-50"
+              onClick={() => navigate("/login")}
+            >
               Sign In
             </Button>
-            <Button onClick={onRegister} className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+            <Button
+              className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+              onClick={() => navigate("/register")}
+            >
               Get Started
             </Button>
           </div>
@@ -40,9 +59,11 @@ const LandingPage = ({ onLogin, onRegister }) => {
             lifestyle coaching, and personalized wellness insights—all in one intelligent platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={onRegister} className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-lg px-8 py-3">
+            <SignUpButton mode="modal">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-lg px-8 py-3">
               Start Your Health Journey
             </Button>
+            </SignUpButton>
             <Button size="lg" variant="outline" className="border-blue-200 hover:bg-blue-50 text-lg px-8 py-3">
               Watch Demo
             </Button>

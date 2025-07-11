@@ -23,23 +23,37 @@ import {
   EyeOff
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUser, useClerk, UserButton } from "@clerk/clerk-react";
 
-const ProfileSettings = ({ user }) => {
+const ProfileSettings = () => {
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const [profile, setProfile] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    age: user?.age || "",
-    gender: user?.gender || "",
-    height: user?.height || "",
-    weight: user?.weight || "",
-    bloodType: user?.bloodType || "",
-    allergies: user?.allergies || "",
-    medications: user?.medications || "",
-    medicalHistory: user?.medicalHistory || "",
-    emergencyContact: user?.emergencyContact || "",
-    preferredLanguage: user?.preferredLanguage || "English",
-    timezone: user?.timezone || "UTC"
+    name: user?.fullName || "",
+    email: user?.primaryEmailAddress?.emailAddress || "",
   });
+  const { toast } = useToast();
+
+  const handleProfileUpdate = async () => {
+    if (!isLoaded) return;
+    try {
+      await user.update({
+        firstName: profile.name.split(" ")[0],
+        lastName: profile.name.split(" ").slice(1).join(" "),
+        emailAddress: profile.email,
+      });
+      toast({
+        title: "Profile Updated",
+        description: "Your profile has been successfully updated.",
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.errors?.[0]?.message || err.message || "Profile update failed.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const [notifications, setNotifications] = useState({
     healthReminders: true,
@@ -58,15 +72,6 @@ const ProfileSettings = ({ user }) => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
-
-  const handleProfileUpdate = () => {
-    // Simulate profile update
-    toast({
-      title: "Profile Updated",
-      description: "Your profile has been successfully updated.",
-    });
-  };
 
   const handleNotificationToggle = (key) => {
     setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
@@ -101,6 +106,51 @@ const ProfileSettings = ({ user }) => {
 
   return (
     <div className="space-y-6">
+      {/* Clerk User Avatar and Management */}
+      <div className="flex items-center gap-4 mb-4">
+        <UserButton afterSignOutUrl="/" />
+        <div>
+          <div className="font-semibold text-lg">{user?.fullName}</div>
+          <div className="text-gray-500 text-sm">{user?.primaryEmailAddress?.emailAddress}</div>
+        </div>
+      </div>
+      {/* Clerk User Info */}
+      <Card className="bg-white/80 backdrop-blur-sm border-blue-100">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <User className="w-5 h-5" />
+            <span>Profile (Clerk)</span>
+          </CardTitle>
+          <CardDescription>Manage your Clerk account details</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input
+                id="name"
+                value={profile.name}
+                onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                className="border-blue-200 focus:border-blue-400"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                value={profile.email}
+                onChange={(e) => setProfile(prev => ({ ...prev, email: e.target.value }))}
+                className="border-blue-200 focus:border-blue-400"
+              />
+            </div>
+          </div>
+          <Button onClick={handleProfileUpdate} className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+            Update Profile
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Personal Information */}
       <Card className="bg-white/80 backdrop-blur-sm border-blue-100">
         <CardHeader>
@@ -553,6 +603,9 @@ const ProfileSettings = ({ user }) => {
           </div>
         </CardContent>
       </Card>
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={() => signOut()}>Logout</Button>
+      </div>
     </div>
   );
 };

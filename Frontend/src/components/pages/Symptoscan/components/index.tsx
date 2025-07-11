@@ -1,0 +1,1 @@
+// Symptoscan components index (placeholder) 

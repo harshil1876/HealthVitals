@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Heart, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useSignUp } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
-const Register = ({ onRegister, onBack, onLogin }) => {
+const Register = ({ onBack, onLogin }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +18,8 @@ const Register = ({ onRegister, onBack, onLogin }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { signUp, setActive, isLoaded } = useSignUp();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,31 +34,34 @@ const Register = ({ onRegister, onBack, onLogin }) => {
       setIsLoading(false);
       return;
     }
-
-    // Simulate registration
-    setTimeout(() => {
-      if (formData.name && formData.email && formData.password) {
-        const userData = {
-          id: "user_" + Date.now(),
-          email: formData.email,
-          name: formData.name,
-          profileComplete: false, // New user needs profile setup
-          createdAt: new Date().toISOString()
-        };
-        onRegister(userData);
+    if (!isLoaded) return;
+    try {
+      const result = await signUp.create({
+        emailAddress: formData.email,
+        password: formData.password,
+      });
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
         toast({
           title: "Account Created!",
           description: "Welcome to HealthVitals-AI. Let's set up your profile.",
         });
+        navigate("/overview");
       } else {
         toast({
           title: "Error",
-          description: "Please fill in all fields.",
+          description: "Sign up not complete. Please try again.",
           variant: "destructive",
         });
       }
-      setIsLoading(false);
-    }, 1000);
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.errors?.[0]?.message || err.message || "Sign up failed.",
+        variant: "destructive",
+      });
+    }
+    setIsLoading(false);
   };
 
   const handleInputChange = (field, value) => {

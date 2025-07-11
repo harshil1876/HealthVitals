@@ -6,41 +6,45 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Heart, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useSignIn } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ onLogin, onBack, onRegister }) => {
+const Login = ({ onBack, onRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate authentication
-    setTimeout(() => {
-      if (email && password) {
-        const userData = {
-          id: "user_123",
-          email: email,
-          name: email.split("@")[0],
-          profileComplete: true, // Simulate existing user
-          createdAt: new Date().toISOString()
-        };
-        onLogin(userData);
+    if (!isLoaded) return;
+    try {
+      const result = await signIn.create({ identifier: email, password });
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
         toast({
           title: "Welcome back!",
           description: "You've successfully signed in.",
         });
+        navigate("/overview");
       } else {
         toast({
           title: "Error",
-          description: "Please fill in all fields.",
+          description: "Sign in not complete. Please try again.",
           variant: "destructive",
         });
       }
-      setIsLoading(false);
-    }, 1000);
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: err.errors?.[0]?.message || err.message || "Sign in failed.",
+        variant: "destructive",
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
