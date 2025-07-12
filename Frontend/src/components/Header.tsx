@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, LogOut, Mic, MicOff, Globe, Menu, Bell, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import logo from "@/assets/Images/logo.png";
 
 const Header = ({ user, onLogout, onMenuClick }) => {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
@@ -38,9 +39,7 @@ const Header = ({ user, onLogout, onMenuClick }) => {
           >
             <Menu className="w-6 h-6 text-blue-600" />
           </button>
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-500 rounded-xl flex items-center justify-center shadow-md">
-            <Heart className="w-7 h-7 text-white" />
-          </div>
+          <img src={logo} alt="Logo" className="w-12 h-12 rounded-xl shadow-md object-contain bg-white" />
           <div>
             <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent tracking-tight">
               HealthVitals-AI

@@ -1,4 +1,5 @@
 import { SignIn, SignUp } from "@clerk/clerk-react";
+import logo from "@/assets/Images/logo.png";
 
 const AuthPage = ({ mode }) => (
   <div className="min-h-screen flex">
@@ -6,7 +7,7 @@ const AuthPage = ({ mode }) => (
     <div className="w-1/2 bg-gradient-to-br from-blue-600 to-green-400 flex flex-col justify-center items-center text-white p-12">
       <div className="flex items-center mb-8">
         <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center mr-3">
-          <span className="text-2xl font-bold">🧠</span>
+          <img src={logo} alt="Logo" className="w-8 h-8 object-contain" />
         </div>
         <span className="text-2xl font-bold">HealthVitals-AI</span>
       </div>
