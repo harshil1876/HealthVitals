@@ -83,6 +83,7 @@ export default function SymptomSelector({
             {bodyAreas.map((area) => (
               <Button
                 key={area.id}
+                type="button"
                 variant={selectedBodyArea === area.id ? "default" : "outline"}
                 className="w-full justify-start"
                 onClick={() => setSelectedBodyArea(area.id)}

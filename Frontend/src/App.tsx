@@ -4,12 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import OverviewPage from "./components/pages/Overview";
-import Dashboard from "./components/dashboards/Dashboard";
 import SymptomAnalyzer from "./components/chatbots/SymptomAnalyzer";
 import LifestyleAssistant from "./components/chatbots/LifestyleAssistant";
 import PersonaAI from "./components/chatbots/PersonaAI";
 import InsightsPage from "./components/pages/Insights";
-import AnalyticsPage from "./components/pages/Analytics";
 import GoalsPage from "./components/pages/Goals";
 import ReportsPage from "./components/pages/Reports";
 import ProfileSettings from "./components/pages/Settings/components/ProfileSettings";
@@ -61,16 +59,6 @@ const App = () => (
             }
           />
           <Route
-            path="/dashboard"
-            element={
-              <RequireAuth>
-              <Layout user={user} onLogout={onLogout}>
-                <Dashboard />
-              </Layout>
-              </RequireAuth>
-            }
-          />
-          <Route
             path="/symptom"
             element={
               <RequireAuth>
@@ -106,16 +94,6 @@ const App = () => (
               <RequireAuth>
               <Layout user={user} onLogout={onLogout}>
                 <InsightsPage />
-              </Layout>
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/analytics"
-            element={
-              <RequireAuth>
-              <Layout user={user} onLogout={onLogout}>
-                <AnalyticsPage />
               </Layout>
               </RequireAuth>
             }

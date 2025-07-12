@@ -25,16 +25,10 @@ export default function AnalysisResultComponent({
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 md:grid-cols-5 gap-2 mb-4">
+        <TabsList className="grid grid-cols-3 gap-2 mb-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
           <TabsTrigger value="report-analysis">Report Analysis</TabsTrigger>
-          <TabsTrigger value="doctors" className="hidden md:block">
-            Find Care
-          </TabsTrigger>
-          <TabsTrigger value="resources" className="hidden md:block">
-            Resources
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
@@ -50,14 +44,6 @@ export default function AnalysisResultComponent({
             result={result}
             selectedSymptoms={selectedSymptoms}
           />
-        </TabsContent>
-
-        <TabsContent value="doctors">
-          <DoctorsTab />
-        </TabsContent>
-
-        <TabsContent value="resources">
-          <ResourcesTab />
         </TabsContent>
       </Tabs>
 

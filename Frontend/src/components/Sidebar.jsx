@@ -19,14 +19,12 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const location = useLocation();
   const navItems = [
     { id: "overview", label: "Overview", icon: Home },
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "symptoscan", label: "Symptoscan", icon: Activity },
     { id: "symptom", label: "Symptoscan-Pro", icon: Activity },
     { id: "lifestyle", label: "Lifestyle", icon: Heart },
     { id: "persona", label: "PersonaAI", icon: Brain },
     { id: "history", label: "History", icon: FileText },
     { id: "insights", label: "Insights", icon: TrendingUp },
-    { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "goals", label: "Goals", icon: Target },
     { id: "reports", label: "Reports", icon: FileText },
     { id: "settings", label: "Settings", icon: Settings }

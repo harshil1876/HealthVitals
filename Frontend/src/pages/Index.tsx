@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../components/dashboards/Dashboard";
 import LandingPage from "../components/pages/Landing/components/LandingPage";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
@@ -19,7 +18,7 @@ const Index = () => {
       const userData = JSON.parse(savedUser);
       setUser(userData);
       if (userData.profileComplete) {
-        setCurrentView("dashboard");
+        setCurrentView("overview");
       } else {
         setCurrentView("profile-setup");
       }
@@ -30,7 +29,7 @@ const Index = () => {
     setUser(userData);
     localStorage.setItem("healthvitals_user", JSON.stringify(userData));
     if (userData.profileComplete) {
-      setCurrentView("dashboard");
+      setCurrentView("overview");
     } else {
       setCurrentView("profile-setup");
     }
@@ -46,7 +45,7 @@ const Index = () => {
     const updatedUser = { ...user, ...profileData, profileComplete: true };
     setUser(updatedUser);
     localStorage.setItem("healthvitals_user", JSON.stringify(updatedUser));
-    setCurrentView("dashboard");
+    setCurrentView("overview");
   };
 
   if (currentView === "landing") {
@@ -65,8 +64,8 @@ const Index = () => {
     return <ProfileSetup user={user} onComplete={handleProfileComplete} />;
   }
 
-  if (currentView === "dashboard") {
-    return <Dashboard />;
+  if (currentView === "overview") {
+    return <OverviewPage />;
   }
 
   return null;
