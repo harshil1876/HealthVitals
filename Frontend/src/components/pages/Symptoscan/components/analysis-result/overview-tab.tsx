@@ -15,6 +15,7 @@ import {
   Shield,
   Check,
   X,
+  Loader2,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../../../../ui/button";
@@ -40,7 +41,15 @@ export default function OverviewTab({ result }: OverviewTabProps) {
           body: JSON.stringify(result),
         }
       );
-      if (!response.ok) throw new Error("Failed to generate PDF");
+      const contentType = response.headers.get("content-type");
+      if (!response.ok || !contentType || !contentType.includes("application/pdf")) {
+        let errorMsg = "Failed to generate PDF";
+        try {
+          const errorData = await response.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch {}
+        throw new Error(errorMsg);
+      }
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -52,7 +61,7 @@ export default function OverviewTab({ result }: OverviewTabProps) {
       document.body.removeChild(a);
     } catch (error) {
       console.error("Error downloading PDF:", error);
-      alert("Failed to download PDF report. Please try again later.");
+      alert("Failed to download PDF report. Please try again later.\n" + error.message);
     } finally {
       setIsDownloading(false);
     }

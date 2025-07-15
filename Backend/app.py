@@ -308,9 +308,9 @@ def analyze_symptoms():
         INDIAN MEAL RECOMMENDATIONS:
         Suggest specific Indian meals based on the patient's diet preference ({diet_preference}), and medical history ({formatted_medical_history}), and lifestyle factors ({exercise_frequency}), and allergies ({allergies}), and recent life changes ({recent_life_changes}) and current medications ({current_medications}), and symptoms ({formatted_symptoms}) with severity and additional medical history ({medical_history_text}), and height ({height}), and weight ({weight}), and age ({age}), each on a new line with a number.
         Organize in three clearly labeled sections:
-        Breakfast: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number.
-        Lunch: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number.
-        Dinner: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number.
+        Breakfast: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number. If you cannot recommend 5, provide at least 1 safe, general, or common healthy option.
+        Lunch: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number. If you cannot recommend 5, provide at least 1 safe, general, or common healthy option.
+        Dinner: List 5 meal options with its ingredients, total calories in that meal, micro and macro nutrients and benefits, each on a new line with a number. If you cannot recommend 5, provide at least 1 safe, general, or common healthy option.
         
         IMPORTANT: If patient has allergies specific medical history and symptoms and additional medical history then avoid those foods in recommendations.
         At the end of this section, add: "These meal recommendations are based on your {diet_preference} diet preference."
@@ -325,7 +325,7 @@ def analyze_symptoms():
         List 3-5 preventive measures, especially focusing on improving sleep quality ({sleep_quality}) and managing stress levels ({stress_level}), and diet preference ({diet_preference}), and medical history ({formatted_medical_history}), and lifestyle factors ({exercise_frequency}), and allergies ({allergies}), and recent life changes ({recent_life_changes}) and current medications ({current_medications}), and symptoms ({formatted_symptoms}) with severity and height ({height}), and weight ({weight}), and age ({age}), each on a new line with a number.
         
         AYURVEDIC MEDICATION:
-        Provide 5 specific Ayurvedic recommendations structured as follows (include exactly 5 recommendations, each with all requested details):
+        Provide 5 specific Ayurvedic recommendations structured as follows (include exactly 5 recommendations, each with all requested details). If you cannot recommend 5, provide at least 1 safe, general, or common Ayurvedic approach suitable for most people.
         
         1. [Ayurvedic Medicine/Herb/Treatment Name]
            - Description: Detailed paragraph of 5-6 lines describing this specific Ayurvedic approach and how it relates to the patient's symptoms, medical history (both structured and text-based), height, weight, and lifestyle factors.
@@ -359,7 +359,7 @@ def analyze_symptoms():
         List 3-5 things the patient should avoid, particularly behaviors that could worsen their stress level and sleep quality, and diet preference, and medical history (both structured and text-based), and lifestyle factors, and allergies, and recent life changes and current medications, and symptoms, height, weight, age, gender, each on a new line with a number.
         
         REPORTS REQUIRED:
-        Recommend 3-5 specific diagnostic tests or medical reports the patient should obtain based on their symptoms and medical history (both structured and text-based), and symptoms, height, weight, age, gender.
+        Recommend 3-5 specific diagnostic tests or medical reports the patient should obtain based on their symptoms and medical history (both structured and text-based), and symptoms, height, weight, age, gender. If you cannot recommend 3, provide at least 1 general or common diagnostic test that is safe and useful for most people.
         
         YOU MUST FORMAT EACH REPORT EXACTLY AS FOLLOWS with clear section markers:
         
@@ -404,7 +404,7 @@ def analyze_symptoms():
         try:
             # Create model and specify parameters
             model = genai.GenerativeModel(
-                model_name="gemini-1.5-pro",
+                model_name="gemini-2.5-flash-lite-preview-06-17",
                 generation_config={
                     "temperature": 0.4,
                     "top_p": 0.95,
@@ -572,7 +572,7 @@ def quick_analyze():
         try:
             # Create model and specify parameters
             model = genai.GenerativeModel(
-                model_name="gemini-1.5-pro",
+                model_name="gemini-2.5-flash-lite-preview-06-17",
                 generation_config={
                     "temperature": 0.4,
                     "top_p": 0.95,
@@ -1169,7 +1169,7 @@ def analyze_medical_reports_with_gemini(prompt):
         
         # Create model with more specific parameters
         model = genai.GenerativeModel(
-            model_name="gemini-1.5-pro",
+            model_name="gemini-2.5-flash-lite-preview-06-17",
             generation_config={
                 "temperature": 0.3,  # Lower temperature for more deterministic results
                 "top_p": 0.95,

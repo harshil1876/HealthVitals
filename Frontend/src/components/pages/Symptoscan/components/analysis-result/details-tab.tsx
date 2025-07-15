@@ -119,7 +119,15 @@ DetailsTabProps) {
           body: JSON.stringify(result),
         }
       );
-      if (!response.ok) throw new Error("Failed to generate PDF");
+      const contentType = response.headers.get("content-type");
+      if (!response.ok || !contentType || !contentType.includes("application/pdf")) {
+        let errorMsg = "Failed to generate PDF";
+        try {
+          const errorData = await response.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch {}
+        throw new Error(errorMsg);
+      }
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -131,7 +139,7 @@ DetailsTabProps) {
       document.body.removeChild(a);
     } catch (error) {
       console.error("Error downloading PDF:", error);
-      alert("Failed to download PDF report. Please try again later.");
+      alert("Failed to download PDF report. Please try again later.\n" + error.message);
     } finally {
       setIsDownloading(false);
     }
@@ -225,7 +233,51 @@ DetailsTabProps) {
             <Utensils className="h-4 w-4 text-primary mr-2" />
             Diet Recommendations
           </h3>
-          {displayMealRecommendations()}
+          {result.mealRecommendations && (
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium text-lg mb-2">Breakfast</h4>
+                <ul className="list-disc pl-5 space-y-1">
+                  {result.mealRecommendations.breakfast && result.mealRecommendations.breakfast.length > 0 ? (
+                    result.mealRecommendations.breakfast.slice(0, 3).map((meal, index) => (
+                      <li key={index} className="text-gray-700">{meal}</li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 italic">No recommendations available.</li>
+                  )}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-lg mb-2">Lunch</h4>
+                <ul className="list-disc pl-5 space-y-1">
+                  {result.mealRecommendations.lunch && result.mealRecommendations.lunch.length > 0 ? (
+                    result.mealRecommendations.lunch.slice(0, 3).map((meal, index) => (
+                      <li key={index} className="text-gray-700">{meal}</li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 italic">No recommendations available.</li>
+                  )}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-lg mb-2">Dinner</h4>
+                <ul className="list-disc pl-5 space-y-1">
+                  {result.mealRecommendations.dinner && result.mealRecommendations.dinner.length > 0 ? (
+                    result.mealRecommendations.dinner.slice(0, 3).map((meal, index) => (
+                      <li key={index} className="text-gray-700">{meal}</li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 italic">No recommendations available.</li>
+                  )}
+                </ul>
+              </div>
+              {result.mealRecommendations.note && (
+                <div className="mt-4 italic text-gray-600">
+                  {result.mealRecommendations.note}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="p-4 border rounded-lg">
           <h3 className="font-medium mb-3 flex items-center">
@@ -233,11 +285,13 @@ DetailsTabProps) {
             Exercise Plan
           </h3>
           <ul className="list-disc pl-5 space-y-1">
-            {result.exercisePlan.slice(0, 3).map((exercise, index) => (
-              <li key={index} className="text-gray-700">
-                {exercise}
-              </li>
-            ))}
+            {result.exercisePlan && result.exercisePlan.length > 0 ? (
+              result.exercisePlan.slice(0, 3).map((exercise, index) => (
+                <li key={index} className="text-gray-700">{exercise}</li>
+              ))
+            ) : (
+              <li className="text-gray-500 italic">No recommendations available.</li>
+            )}
           </ul>
         </div>
         <div className="p-4 border rounded-lg">
@@ -246,11 +300,15 @@ DetailsTabProps) {
             Ayurvedic Recommendations
           </h3>
           <ul className="list-disc pl-5 space-y-1">
-            {result.ayurvedicMedication?.recommendations?.slice(0, 2).map((rec, index) => (
-              <li key={index} className="text-gray-700">
-                <strong>{rec.name}:</strong> {rec.description}
-              </li>
-            ))}
+            {result.ayurvedicMedication?.recommendations && result.ayurvedicMedication.recommendations.length > 0 ? (
+              result.ayurvedicMedication.recommendations.slice(0, 2).map((rec, index) => (
+                <li key={index} className="text-gray-700">
+                  <strong>{rec.name}:</strong> {rec.description}
+                </li>
+              ))
+            ) : (
+              <li className="text-gray-500 italic">No recommendations available.</li>
+            )}
           </ul>
         </div>
         <div className="p-4 border rounded-lg">
@@ -259,11 +317,15 @@ DetailsTabProps) {
             Reports Required
           </h3>
           <ul className="list-disc pl-5 space-y-1">
-            {result.reportsRequired?.slice(0, 2).map((report, index) => (
-              <li key={index} className="text-gray-700">
-                <strong>{report.name}:</strong> {report.purpose}
-              </li>
-            ))}
+            {result.reportsRequired && result.reportsRequired.length > 0 ? (
+              result.reportsRequired.slice(0, 2).map((report, index) => (
+                <li key={index} className="text-gray-700">
+                  <strong>{report.name}:</strong> {report.purpose}
+                </li>
+              ))
+            ) : (
+              <li className="text-gray-500 italic">No recommendations available.</li>
+            )}
           </ul>
         </div>
         <div className="flex justify-end">
